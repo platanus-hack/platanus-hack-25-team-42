@@ -32,11 +32,10 @@ export const auth = betterAuth({
     }),
     passkey(),
     emailOTP({
+      sendVerificationOnSignUp: true,
       async sendVerificationOTP({ email, otp, type }) {
-        // Log OTP to console in development
         console.log(`[OTP] Email: ${email}, Code: ${otp}, Type: ${type}`);
       },
-      sendVerificationOnSignUp: true, // Auto-register new users
     }),
   ],
 });

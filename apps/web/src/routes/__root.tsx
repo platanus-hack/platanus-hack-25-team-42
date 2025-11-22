@@ -2,22 +2,22 @@ import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
-  useRouteContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestHeaders } from "@tanstack/react-start/server";
 import { QueryClient } from "@tanstack/react-query";
 
-import Header from "../components/Header";
-
 import appCss from "../styles.css?url";
+import { auth } from "@/auth";
 
 const fetchAuth = createServerFn({ method: "GET" }).handler(async () => {
-  return {
-    userId: "",
-    token: "",
-  };
+  const session = await auth.api.getSession({
+    headers: getRequestHeaders(),
+  });
+
+  return session;
 });
 
 export const Route = createRootRouteWithContext<{
@@ -43,26 +43,23 @@ export const Route = createRootRouteWithContext<{
       },
     ],
   }),
-  beforeLoad: async (ctx) => {
-    // all queries, mutations and action made with TanStack Query will be
-    // authenticated by an identity token.
-    const { userId, token } = await fetchAuth();
-    //
+  beforeLoad: async () => {
+    const session = await fetchAuth();
+    return {
+      session,
+    };
   },
 
   shellComponent: RootDocument,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const context = useRouteContext({ from: Route.id });
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
-        <Header />
         {children}
         <TanStackDevtools
           config={{
