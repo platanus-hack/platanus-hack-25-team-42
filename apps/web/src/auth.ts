@@ -8,8 +8,14 @@ import { db } from "./db";
 export const auth = betterAuth({
   baseURL: "http://localhost:3000",
   database: drizzleAdapter(db, {
-    provider: "pg", // or "mysql", "sqlite"
+    provider: "pg",
   }),
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+  },
   plugins: [
     oidcProvider({
       loginPage: "/login",
