@@ -29,7 +29,7 @@ export function LoginForm() {
       return result.data;
     },
     onSuccess: () => {
-      if (data.redirect) navigate({ to: data.redirect });
+      navigate({ to: data.redirect || '/' });
     },
   });
 
@@ -50,7 +50,10 @@ export function LoginForm() {
   };
 
   const handlePasskeyLogin = async () => {
-    await authClient.signIn.passkey();
+    const result = await authClient.signIn.passkey();
+    if (result.data && !result.error) {
+      navigate({ to: data.redirect || '/' });
+    }
   };
 
   // Derive step from mutation state
