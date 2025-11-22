@@ -11,17 +11,22 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ConsentRouteImport } from './routes/consent'
+import { Route as ConcentRouteImport } from './routes/concent'
+import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as ProfileRouteRouteImport } from './routes/profile/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProfilePermisosRouteImport } from './routes/profile/permisos'
 import { Route as ProfileDocumentosRouteImport } from './routes/profile/documentos'
 import { Route as ProfileDatosRouteImport } from './routes/profile/datos'
-import { Route as DevAppsRouteImport } from './routes/dev/apps'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminCredentialsRouteImport } from './routes/admin/credentials'
+import { Route as AuthedDevRouteImport } from './routes/_authed/dev'
+import { Route as AuthedDevIndexRouteImport } from './routes/_authed/dev/index'
 import { Route as ApiUserDataUserIdRouteImport } from './routes/api.user-data.$userId'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAdminDeleteUserRouteImport } from './routes/api/admin/delete-user'
+import { Route as AuthedDevAppsNewRouteImport } from './routes/_authed/dev/apps.new'
+import { Route as AuthedDevAppIdRouteImport } from './routes/_authed/dev/app.$id'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -31,6 +36,15 @@ const LoginRoute = LoginRouteImport.update({
 const ConsentRoute = ConsentRouteImport.update({
   id: '/consent',
   path: '/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConcentRoute = ConcentRouteImport.update({
+  id: '/concent',
+  path: '/concent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedRoute = AuthedRouteImport.update({
+  id: '/_authed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRouteRoute = ProfileRouteRouteImport.update({
@@ -58,11 +72,6 @@ const ProfileDatosRoute = ProfileDatosRouteImport.update({
   path: '/datos',
   getParentRoute: () => ProfileRouteRoute,
 } as any)
-const DevAppsRoute = DevAppsRouteImport.update({
-  id: '/dev/apps',
-  path: '/dev/apps',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
@@ -72,6 +81,16 @@ const AdminCredentialsRoute = AdminCredentialsRouteImport.update({
   id: '/admin/credentials',
   path: '/admin/credentials',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedDevRoute = AuthedDevRouteImport.update({
+  id: '/dev',
+  path: '/dev',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedDevIndexRoute = AuthedDevIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthedDevRoute,
 } as any)
 const ApiUserDataUserIdRoute = ApiUserDataUserIdRouteImport.update({
   id: '/api/user-data/$userId',
@@ -88,109 +107,144 @@ const ApiAdminDeleteUserRoute = ApiAdminDeleteUserRouteImport.update({
   path: '/api/admin/delete-user',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedDevAppsNewRoute = AuthedDevAppsNewRouteImport.update({
+  id: '/apps/new',
+  path: '/apps/new',
+  getParentRoute: () => AuthedDevRoute,
+} as any)
+const AuthedDevAppIdRoute = AuthedDevAppIdRouteImport.update({
+  id: '/app/$id',
+  path: '/app/$id',
+  getParentRoute: () => AuthedDevRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/profile': typeof ProfileRouteRouteWithChildren
+  '/concent': typeof ConcentRoute
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
+  '/dev': typeof AuthedDevRouteWithChildren
   '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/users': typeof AdminUsersRoute
-  '/dev/apps': typeof DevAppsRoute
   '/profile/datos': typeof ProfileDatosRoute
   '/profile/documentos': typeof ProfileDocumentosRoute
   '/profile/permisos': typeof ProfilePermisosRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
+  '/dev/': typeof AuthedDevIndexRoute
+  '/dev/app/$id': typeof AuthedDevAppIdRoute
+  '/dev/apps/new': typeof AuthedDevAppsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/profile': typeof ProfileRouteRouteWithChildren
+  '/concent': typeof ConcentRoute
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
   '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/users': typeof AdminUsersRoute
-  '/dev/apps': typeof DevAppsRoute
   '/profile/datos': typeof ProfileDatosRoute
   '/profile/documentos': typeof ProfileDocumentosRoute
   '/profile/permisos': typeof ProfilePermisosRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
+  '/dev': typeof AuthedDevIndexRoute
+  '/dev/app/$id': typeof AuthedDevAppIdRoute
+  '/dev/apps/new': typeof AuthedDevAppsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/profile': typeof ProfileRouteRouteWithChildren
+  '/_authed': typeof AuthedRouteWithChildren
+  '/concent': typeof ConcentRoute
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
+  '/_authed/dev': typeof AuthedDevRouteWithChildren
   '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/users': typeof AdminUsersRoute
-  '/dev/apps': typeof DevAppsRoute
   '/profile/datos': typeof ProfileDatosRoute
   '/profile/documentos': typeof ProfileDocumentosRoute
   '/profile/permisos': typeof ProfilePermisosRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
+  '/_authed/dev/': typeof AuthedDevIndexRoute
+  '/_authed/dev/app/$id': typeof AuthedDevAppIdRoute
+  '/_authed/dev/apps/new': typeof AuthedDevAppsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/profile'
+    | '/concent'
     | '/consent'
     | '/login'
+    | '/dev'
     | '/admin/credentials'
     | '/admin/users'
-    | '/dev/apps'
     | '/profile/datos'
     | '/profile/documentos'
     | '/profile/permisos'
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/api/user-data/$userId'
+    | '/dev/'
+    | '/dev/app/$id'
+    | '/dev/apps/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/profile'
+    | '/concent'
     | '/consent'
     | '/login'
     | '/admin/credentials'
     | '/admin/users'
-    | '/dev/apps'
     | '/profile/datos'
     | '/profile/documentos'
     | '/profile/permisos'
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/api/user-data/$userId'
+    | '/dev'
+    | '/dev/app/$id'
+    | '/dev/apps/new'
   id:
     | '__root__'
     | '/'
     | '/profile'
+    | '/_authed'
+    | '/concent'
     | '/consent'
     | '/login'
+    | '/_authed/dev'
     | '/admin/credentials'
     | '/admin/users'
-    | '/dev/apps'
     | '/profile/datos'
     | '/profile/documentos'
     | '/profile/permisos'
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/api/user-data/$userId'
+    | '/_authed/dev/'
+    | '/_authed/dev/app/$id'
+    | '/_authed/dev/apps/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProfileRouteRoute: typeof ProfileRouteRouteWithChildren
+  AuthedRoute: typeof AuthedRouteWithChildren
+  ConcentRoute: typeof ConcentRoute
   ConsentRoute: typeof ConsentRoute
   LoginRoute: typeof LoginRoute
   AdminCredentialsRoute: typeof AdminCredentialsRoute
   AdminUsersRoute: typeof AdminUsersRoute
-  DevAppsRoute: typeof DevAppsRoute
   ApiAdminDeleteUserRoute: typeof ApiAdminDeleteUserRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiUserDataUserIdRoute: typeof ApiUserDataUserIdRoute
@@ -210,6 +264,20 @@ declare module '@tanstack/react-router' {
       path: '/consent'
       fullPath: '/consent'
       preLoaderRoute: typeof ConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/concent': {
+      id: '/concent'
+      path: '/concent'
+      fullPath: '/concent'
+      preLoaderRoute: typeof ConcentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authed': {
+      id: '/_authed'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -247,13 +315,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileDatosRouteImport
       parentRoute: typeof ProfileRouteRoute
     }
-    '/dev/apps': {
-      id: '/dev/apps'
-      path: '/dev/apps'
-      fullPath: '/dev/apps'
-      preLoaderRoute: typeof DevAppsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin/users': {
       id: '/admin/users'
       path: '/admin/users'
@@ -267,6 +328,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/credentials'
       preLoaderRoute: typeof AdminCredentialsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authed/dev': {
+      id: '/_authed/dev'
+      path: '/dev'
+      fullPath: '/dev'
+      preLoaderRoute: typeof AuthedDevRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/dev/': {
+      id: '/_authed/dev/'
+      path: '/'
+      fullPath: '/dev/'
+      preLoaderRoute: typeof AuthedDevIndexRouteImport
+      parentRoute: typeof AuthedDevRoute
     }
     '/api/user-data/$userId': {
       id: '/api/user-data/$userId'
@@ -289,6 +364,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminDeleteUserRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed/dev/apps/new': {
+      id: '/_authed/dev/apps/new'
+      path: '/apps/new'
+      fullPath: '/dev/apps/new'
+      preLoaderRoute: typeof AuthedDevAppsNewRouteImport
+      parentRoute: typeof AuthedDevRoute
+    }
+    '/_authed/dev/app/$id': {
+      id: '/_authed/dev/app/$id'
+      path: '/app/$id'
+      fullPath: '/dev/app/$id'
+      preLoaderRoute: typeof AuthedDevAppIdRouteImport
+      parentRoute: typeof AuthedDevRoute
+    }
   }
 }
 
@@ -308,14 +397,42 @@ const ProfileRouteRouteWithChildren = ProfileRouteRoute._addFileChildren(
   ProfileRouteRouteChildren,
 )
 
+interface AuthedDevRouteChildren {
+  AuthedDevIndexRoute: typeof AuthedDevIndexRoute
+  AuthedDevAppIdRoute: typeof AuthedDevAppIdRoute
+  AuthedDevAppsNewRoute: typeof AuthedDevAppsNewRoute
+}
+
+const AuthedDevRouteChildren: AuthedDevRouteChildren = {
+  AuthedDevIndexRoute: AuthedDevIndexRoute,
+  AuthedDevAppIdRoute: AuthedDevAppIdRoute,
+  AuthedDevAppsNewRoute: AuthedDevAppsNewRoute,
+}
+
+const AuthedDevRouteWithChildren = AuthedDevRoute._addFileChildren(
+  AuthedDevRouteChildren,
+)
+
+interface AuthedRouteChildren {
+  AuthedDevRoute: typeof AuthedDevRouteWithChildren
+}
+
+const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedDevRoute: AuthedDevRouteWithChildren,
+}
+
+const AuthedRouteWithChildren =
+  AuthedRoute._addFileChildren(AuthedRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProfileRouteRoute: ProfileRouteRouteWithChildren,
+  AuthedRoute: AuthedRouteWithChildren,
+  ConcentRoute: ConcentRoute,
   ConsentRoute: ConsentRoute,
   LoginRoute: LoginRoute,
   AdminCredentialsRoute: AdminCredentialsRoute,
   AdminUsersRoute: AdminUsersRoute,
-  DevAppsRoute: DevAppsRoute,
   ApiAdminDeleteUserRoute: ApiAdminDeleteUserRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiUserDataUserIdRoute: ApiUserDataUserIdRoute,

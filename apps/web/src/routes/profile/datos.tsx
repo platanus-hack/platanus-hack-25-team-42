@@ -55,7 +55,7 @@ function ProfileView() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex flex-col">
+    <div className="mx-auto max-w-7xl w-full min-h-[calc(100vh-8rem)] flex flex-col">
       <div className="flex justify-between items-end mb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Mis Datos</h1>

@@ -47,7 +47,7 @@ export const Route = createFileRoute("/profile/documentos")({
 
 function FileManager() {
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex flex-col">
+    <div className="mx-auto max-w-7xl w-full min-h-[calc(100vh-8rem)] flex flex-col">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-900">Mis Documentos</h1>
         <div className="px-3 py-1 bg-white/60 rounded-full text-xs font-medium text-gray-500 border border-gray-100/50">
