@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { authClient } from "@/integrations/auth/client";
 
-export const Route = createFileRoute("/_authed/dev/apps/new")({
+export const Route = createFileRoute("/_with_header/_authed/dev/apps/new")({
   component: RouteComponent,
 });
 

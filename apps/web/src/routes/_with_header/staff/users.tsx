@@ -29,7 +29,7 @@ const getUsers = createServerFn({
   return usersWithAccounts;
 });
 
-export const Route = createFileRoute("/admin/users")({
+export const Route = createFileRoute("/_with_header/staff/users")({
   component: AdminUsersPage,
   loader: async () => {
     const users = await getUsers();

@@ -28,7 +28,7 @@ const getApp = createServerFn({
     return app[0];
   });
 
-export const Route = createFileRoute("/_authed/dev/app/$id")({
+export const Route = createFileRoute("/_with_header/_authed/dev/app/$id")({
   component: RouteComponent,
   loader: async ({ params }) => {
     const app = await getApp({ data: { id: params.id } });

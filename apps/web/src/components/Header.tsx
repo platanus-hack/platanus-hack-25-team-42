@@ -1,14 +1,9 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { authClient } from "@/integrations/auth/client";
 
 export function Header() {
   const { data: session } = authClient.useSession();
-  const router = useRouterState();
-  const pathname = router.location.pathname;
-
-  if (pathname.startsWith("/login") || pathname.startsWith("/profile")) {
-    return null;
-  }
+  const location = useLocation();
 
   return (
     <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
@@ -32,26 +27,25 @@ export function Header() {
             {session && (
               <>
                 <Link
-                  to="/admin/users"
+                  to="/staff/users"
                   className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
                   activeProps={{ className: "text-white" }}
                 >
-                  User
+                  User (Staff)
                 </Link>
                 <Link
-                  to="/admin/users"
+                  to="/dev"
                   className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
                   activeProps={{ className: "text-white" }}
                 >
-                  User
+                  Developer Pannel
                 </Link>
-
                 <Link
-                  to="/admin/credentials"
+                  to="/profile"
                   className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
                   activeProps={{ className: "text-white" }}
                 >
-                  Credentials
+                  Profile Pannel
                 </Link>
               </>
             )}
@@ -93,7 +87,7 @@ export function Header() {
             <Link
               to="/login"
               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm font-medium"
-              search={{ redirect: pathname }}
+              search={{ redirect: location.pathname }}
             >
               Sign In
             </Link>

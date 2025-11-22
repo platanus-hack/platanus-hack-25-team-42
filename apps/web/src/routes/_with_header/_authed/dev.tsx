@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_authed/dev")({
+export const Route = createFileRoute("/_with_header/_authed/dev")({
   component: RouteComponent,
 });
 

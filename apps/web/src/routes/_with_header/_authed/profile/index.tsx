@@ -37,7 +37,7 @@ const MOCK_PROFILE: UserProfile = {
   },
 }
 
-export const Route = createFileRoute("/profile/")({
+export const Route = createFileRoute("/_with_header/_authed/profile/")({
   component: ProfileView,
 });
 

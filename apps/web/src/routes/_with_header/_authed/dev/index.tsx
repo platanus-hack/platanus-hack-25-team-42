@@ -19,7 +19,7 @@ const getApps = createServerFn({
   return apps;
 });
 
-export const Route = createFileRoute("/_authed/dev/")({
+export const Route = createFileRoute("/_with_header/_authed/dev/")({
   component: RouteComponent,
   loader: async () => {
     const apps = await getApps();

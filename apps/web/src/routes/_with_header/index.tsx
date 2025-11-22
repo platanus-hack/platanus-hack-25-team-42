@@ -24,7 +24,7 @@ const createPost = createServerFn({
   });
 });
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_with_header/")({
   component: App,
 
   loader: async () => {

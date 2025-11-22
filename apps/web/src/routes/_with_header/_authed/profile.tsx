@@ -2,7 +2,7 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { SidebarLayout } from "@/components/ui/sidebar-layout";
 import ProfileSidebar from "@/components/profile/sidebar";
 
-export const Route = createFileRoute("/profile")({
+export const Route = createFileRoute("/_with_header/_authed/profile")({
   component: ProfileLayout,
 });
 

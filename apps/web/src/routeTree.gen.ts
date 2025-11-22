@@ -9,82 +9,51 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as ConsentRouteImport } from './routes/consent'
-import { Route as ConcentRouteImport } from './routes/concent'
-import { Route as AuthedRouteImport } from './routes/_authed'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProfileIndexRouteImport } from './routes/profile/index'
-import { Route as ProfileConnectedAppsRouteImport } from './routes/profile/connected-apps'
-import { Route as AdminUsersRouteImport } from './routes/admin/users'
-import { Route as AdminCredentialsRouteImport } from './routes/admin/credentials'
-import { Route as AuthedDevRouteImport } from './routes/_authed/dev'
-import { Route as AuthedDevIndexRouteImport } from './routes/_authed/dev/index'
+import { Route as With_headerRouteImport } from './routes/_with_header'
+import { Route as AuthflowRouteImport } from './routes/_authflow'
+import { Route as With_headerIndexRouteImport } from './routes/_with_header/index'
+import { Route as With_headerAuthedRouteImport } from './routes/_with_header/_authed'
+import { Route as AuthflowLoginRouteImport } from './routes/_authflow/login'
+import { Route as AuthflowConsentRouteImport } from './routes/_authflow/consent'
 import { Route as ApiUserDataUserIdRouteImport } from './routes/api.user-data.$userId'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAdminDeleteUserRouteImport } from './routes/api/admin/delete-user'
-import { Route as AuthedDevAppsNewRouteImport } from './routes/_authed/dev/apps.new'
-import { Route as AuthedDevAppIdRouteImport } from './routes/_authed/dev/app.$id'
+import { Route as With_headerStaffUsersRouteImport } from './routes/_with_header/staff/users'
+import { Route as With_headerStaffCredentialsRouteImport } from './routes/_with_header/staff/credentials'
+import { Route as With_headerAuthedProfileRouteImport } from './routes/_with_header/_authed/profile'
+import { Route as With_headerAuthedDevRouteImport } from './routes/_with_header/_authed/dev'
+import { Route as With_headerAuthedProfileIndexRouteImport } from './routes/_with_header/_authed/profile/index'
+import { Route as With_headerAuthedDevIndexRouteImport } from './routes/_with_header/_authed/dev/index'
+import { Route as With_headerAuthedProfileConnectedAppsRouteImport } from './routes/_with_header/_authed/profile/connected-apps'
+import { Route as With_headerAuthedDevAppsNewRouteImport } from './routes/_with_header/_authed/dev/apps.new'
+import { Route as With_headerAuthedDevAppIdRouteImport } from './routes/_with_header/_authed/dev/app.$id'
 
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
+const With_headerRoute = With_headerRouteImport.update({
+  id: '/_with_header',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
+const AuthflowRoute = AuthflowRouteImport.update({
+  id: '/_authflow',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const With_headerIndexRoute = With_headerIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => With_headerRoute,
+} as any)
+const With_headerAuthedRoute = With_headerAuthedRouteImport.update({
+  id: '/_authed',
+  getParentRoute: () => With_headerRoute,
+} as any)
+const AuthflowLoginRoute = AuthflowLoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthflowRoute,
 } as any)
-const ConsentRoute = ConsentRouteImport.update({
+const AuthflowConsentRoute = AuthflowConsentRouteImport.update({
   id: '/consent',
   path: '/consent',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ConcentRoute = ConcentRouteImport.update({
-  id: '/concent',
-  path: '/concent',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthedRoute = AuthedRouteImport.update({
-  id: '/_authed',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileIndexRoute = ProfileIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfileConnectedAppsRoute = ProfileConnectedAppsRouteImport.update({
-  id: '/connected-apps',
-  path: '/connected-apps',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const AdminUsersRoute = AdminUsersRouteImport.update({
-  id: '/admin/users',
-  path: '/admin/users',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminCredentialsRoute = AdminCredentialsRouteImport.update({
-  id: '/admin/credentials',
-  path: '/admin/credentials',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthedDevRoute = AuthedDevRouteImport.update({
-  id: '/dev',
-  path: '/dev',
-  getParentRoute: () => AuthedRoute,
-} as any)
-const AuthedDevIndexRoute = AuthedDevIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthedDevRoute,
+  getParentRoute: () => AuthflowRoute,
 } as any)
 const ApiUserDataUserIdRoute = ApiUserDataUserIdRouteImport.update({
   id: '/api/user-data/$userId',
@@ -101,136 +70,170 @@ const ApiAdminDeleteUserRoute = ApiAdminDeleteUserRouteImport.update({
   path: '/api/admin/delete-user',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthedDevAppsNewRoute = AuthedDevAppsNewRouteImport.update({
-  id: '/apps/new',
-  path: '/apps/new',
-  getParentRoute: () => AuthedDevRoute,
+const With_headerStaffUsersRoute = With_headerStaffUsersRouteImport.update({
+  id: '/staff/users',
+  path: '/staff/users',
+  getParentRoute: () => With_headerRoute,
 } as any)
-const AuthedDevAppIdRoute = AuthedDevAppIdRouteImport.update({
-  id: '/app/$id',
-  path: '/app/$id',
-  getParentRoute: () => AuthedDevRoute,
+const With_headerStaffCredentialsRoute =
+  With_headerStaffCredentialsRouteImport.update({
+    id: '/staff/credentials',
+    path: '/staff/credentials',
+    getParentRoute: () => With_headerRoute,
+  } as any)
+const With_headerAuthedProfileRoute =
+  With_headerAuthedProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => With_headerAuthedRoute,
+  } as any)
+const With_headerAuthedDevRoute = With_headerAuthedDevRouteImport.update({
+  id: '/dev',
+  path: '/dev',
+  getParentRoute: () => With_headerAuthedRoute,
 } as any)
+const With_headerAuthedProfileIndexRoute =
+  With_headerAuthedProfileIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => With_headerAuthedProfileRoute,
+  } as any)
+const With_headerAuthedDevIndexRoute =
+  With_headerAuthedDevIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => With_headerAuthedDevRoute,
+  } as any)
+const With_headerAuthedProfileConnectedAppsRoute =
+  With_headerAuthedProfileConnectedAppsRouteImport.update({
+    id: '/connected-apps',
+    path: '/connected-apps',
+    getParentRoute: () => With_headerAuthedProfileRoute,
+  } as any)
+const With_headerAuthedDevAppsNewRoute =
+  With_headerAuthedDevAppsNewRouteImport.update({
+    id: '/apps/new',
+    path: '/apps/new',
+    getParentRoute: () => With_headerAuthedDevRoute,
+  } as any)
+const With_headerAuthedDevAppIdRoute =
+  With_headerAuthedDevAppIdRouteImport.update({
+    id: '/app/$id',
+    path: '/app/$id',
+    getParentRoute: () => With_headerAuthedDevRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/concent': typeof ConcentRoute
-  '/consent': typeof ConsentRoute
-  '/login': typeof LoginRoute
-  '/profile': typeof ProfileRouteWithChildren
-  '/dev': typeof AuthedDevRouteWithChildren
-  '/admin/credentials': typeof AdminCredentialsRoute
-  '/admin/users': typeof AdminUsersRoute
-  '/profile/connected-apps': typeof ProfileConnectedAppsRoute
-  '/profile/': typeof ProfileIndexRoute
+  '/consent': typeof AuthflowConsentRoute
+  '/login': typeof AuthflowLoginRoute
+  '/': typeof With_headerIndexRoute
+  '/dev': typeof With_headerAuthedDevRouteWithChildren
+  '/profile': typeof With_headerAuthedProfileRouteWithChildren
+  '/staff/credentials': typeof With_headerStaffCredentialsRoute
+  '/staff/users': typeof With_headerStaffUsersRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
-  '/dev/': typeof AuthedDevIndexRoute
-  '/dev/app/$id': typeof AuthedDevAppIdRoute
-  '/dev/apps/new': typeof AuthedDevAppsNewRoute
+  '/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
+  '/dev/': typeof With_headerAuthedDevIndexRoute
+  '/profile/': typeof With_headerAuthedProfileIndexRoute
+  '/dev/app/$id': typeof With_headerAuthedDevAppIdRoute
+  '/dev/apps/new': typeof With_headerAuthedDevAppsNewRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/concent': typeof ConcentRoute
-  '/consent': typeof ConsentRoute
-  '/login': typeof LoginRoute
-  '/admin/credentials': typeof AdminCredentialsRoute
-  '/admin/users': typeof AdminUsersRoute
-  '/profile/connected-apps': typeof ProfileConnectedAppsRoute
-  '/profile': typeof ProfileIndexRoute
+  '/consent': typeof AuthflowConsentRoute
+  '/login': typeof AuthflowLoginRoute
+  '/': typeof With_headerIndexRoute
+  '/staff/credentials': typeof With_headerStaffCredentialsRoute
+  '/staff/users': typeof With_headerStaffUsersRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
-  '/dev': typeof AuthedDevIndexRoute
-  '/dev/app/$id': typeof AuthedDevAppIdRoute
-  '/dev/apps/new': typeof AuthedDevAppsNewRoute
+  '/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
+  '/dev': typeof With_headerAuthedDevIndexRoute
+  '/profile': typeof With_headerAuthedProfileIndexRoute
+  '/dev/app/$id': typeof With_headerAuthedDevAppIdRoute
+  '/dev/apps/new': typeof With_headerAuthedDevAppsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/_authed': typeof AuthedRouteWithChildren
-  '/concent': typeof ConcentRoute
-  '/consent': typeof ConsentRoute
-  '/login': typeof LoginRoute
-  '/profile': typeof ProfileRouteWithChildren
-  '/_authed/dev': typeof AuthedDevRouteWithChildren
-  '/admin/credentials': typeof AdminCredentialsRoute
-  '/admin/users': typeof AdminUsersRoute
-  '/profile/connected-apps': typeof ProfileConnectedAppsRoute
-  '/profile/': typeof ProfileIndexRoute
+  '/_authflow': typeof AuthflowRouteWithChildren
+  '/_with_header': typeof With_headerRouteWithChildren
+  '/_authflow/consent': typeof AuthflowConsentRoute
+  '/_authflow/login': typeof AuthflowLoginRoute
+  '/_with_header/_authed': typeof With_headerAuthedRouteWithChildren
+  '/_with_header/': typeof With_headerIndexRoute
+  '/_with_header/_authed/dev': typeof With_headerAuthedDevRouteWithChildren
+  '/_with_header/_authed/profile': typeof With_headerAuthedProfileRouteWithChildren
+  '/_with_header/staff/credentials': typeof With_headerStaffCredentialsRoute
+  '/_with_header/staff/users': typeof With_headerStaffUsersRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
-  '/_authed/dev/': typeof AuthedDevIndexRoute
-  '/_authed/dev/app/$id': typeof AuthedDevAppIdRoute
-  '/_authed/dev/apps/new': typeof AuthedDevAppsNewRoute
+  '/_with_header/_authed/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
+  '/_with_header/_authed/dev/': typeof With_headerAuthedDevIndexRoute
+  '/_with_header/_authed/profile/': typeof With_headerAuthedProfileIndexRoute
+  '/_with_header/_authed/dev/app/$id': typeof With_headerAuthedDevAppIdRoute
+  '/_with_header/_authed/dev/apps/new': typeof With_headerAuthedDevAppsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/concent'
     | '/consent'
     | '/login'
-    | '/profile'
+    | '/'
     | '/dev'
-    | '/admin/credentials'
-    | '/admin/users'
-    | '/profile/connected-apps'
-    | '/profile/'
+    | '/profile'
+    | '/staff/credentials'
+    | '/staff/users'
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/api/user-data/$userId'
+    | '/profile/connected-apps'
     | '/dev/'
+    | '/profile/'
     | '/dev/app/$id'
     | '/dev/apps/new'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/concent'
     | '/consent'
     | '/login'
-    | '/admin/credentials'
-    | '/admin/users'
-    | '/profile/connected-apps'
-    | '/profile'
+    | '/'
+    | '/staff/credentials'
+    | '/staff/users'
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/api/user-data/$userId'
+    | '/profile/connected-apps'
     | '/dev'
+    | '/profile'
     | '/dev/app/$id'
     | '/dev/apps/new'
   id:
     | '__root__'
-    | '/'
-    | '/_authed'
-    | '/concent'
-    | '/consent'
-    | '/login'
-    | '/profile'
-    | '/_authed/dev'
-    | '/admin/credentials'
-    | '/admin/users'
-    | '/profile/connected-apps'
-    | '/profile/'
+    | '/_authflow'
+    | '/_with_header'
+    | '/_authflow/consent'
+    | '/_authflow/login'
+    | '/_with_header/_authed'
+    | '/_with_header/'
+    | '/_with_header/_authed/dev'
+    | '/_with_header/_authed/profile'
+    | '/_with_header/staff/credentials'
+    | '/_with_header/staff/users'
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/api/user-data/$userId'
-    | '/_authed/dev/'
-    | '/_authed/dev/app/$id'
-    | '/_authed/dev/apps/new'
+    | '/_with_header/_authed/profile/connected-apps'
+    | '/_with_header/_authed/dev/'
+    | '/_with_header/_authed/profile/'
+    | '/_with_header/_authed/dev/app/$id'
+    | '/_with_header/_authed/dev/apps/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthedRoute: typeof AuthedRouteWithChildren
-  ConcentRoute: typeof ConcentRoute
-  ConsentRoute: typeof ConsentRoute
-  LoginRoute: typeof LoginRoute
-  ProfileRoute: typeof ProfileRouteWithChildren
-  AdminCredentialsRoute: typeof AdminCredentialsRoute
-  AdminUsersRoute: typeof AdminUsersRoute
+  AuthflowRoute: typeof AuthflowRouteWithChildren
+  With_headerRoute: typeof With_headerRouteWithChildren
   ApiAdminDeleteUserRoute: typeof ApiAdminDeleteUserRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiUserDataUserIdRoute: typeof ApiUserDataUserIdRoute
@@ -238,89 +241,47 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/consent': {
-      id: '/consent'
-      path: '/consent'
-      fullPath: '/consent'
-      preLoaderRoute: typeof ConsentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/concent': {
-      id: '/concent'
-      path: '/concent'
-      fullPath: '/concent'
-      preLoaderRoute: typeof ConcentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authed': {
-      id: '/_authed'
+    '/_with_header': {
+      id: '/_with_header'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthedRouteImport
+      preLoaderRoute: typeof With_headerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_authflow': {
+      id: '/_authflow'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthflowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_with_header/': {
+      id: '/_with_header/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof With_headerIndexRouteImport
+      parentRoute: typeof With_headerRoute
     }
-    '/profile/': {
-      id: '/profile/'
-      path: '/'
-      fullPath: '/profile/'
-      preLoaderRoute: typeof ProfileIndexRouteImport
-      parentRoute: typeof ProfileRoute
+    '/_with_header/_authed': {
+      id: '/_with_header/_authed'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof With_headerAuthedRouteImport
+      parentRoute: typeof With_headerRoute
     }
-    '/profile/connected-apps': {
-      id: '/profile/connected-apps'
-      path: '/connected-apps'
-      fullPath: '/profile/connected-apps'
-      preLoaderRoute: typeof ProfileConnectedAppsRouteImport
-      parentRoute: typeof ProfileRoute
+    '/_authflow/login': {
+      id: '/_authflow/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthflowLoginRouteImport
+      parentRoute: typeof AuthflowRoute
     }
-    '/admin/users': {
-      id: '/admin/users'
-      path: '/admin/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AdminUsersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/credentials': {
-      id: '/admin/credentials'
-      path: '/admin/credentials'
-      fullPath: '/admin/credentials'
-      preLoaderRoute: typeof AdminCredentialsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authed/dev': {
-      id: '/_authed/dev'
-      path: '/dev'
-      fullPath: '/dev'
-      preLoaderRoute: typeof AuthedDevRouteImport
-      parentRoute: typeof AuthedRoute
-    }
-    '/_authed/dev/': {
-      id: '/_authed/dev/'
-      path: '/'
-      fullPath: '/dev/'
-      preLoaderRoute: typeof AuthedDevIndexRouteImport
-      parentRoute: typeof AuthedDevRoute
+    '/_authflow/consent': {
+      id: '/_authflow/consent'
+      path: '/consent'
+      fullPath: '/consent'
+      preLoaderRoute: typeof AuthflowConsentRouteImport
+      parentRoute: typeof AuthflowRoute
     }
     '/api/user-data/$userId': {
       id: '/api/user-data/$userId'
@@ -343,72 +304,152 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminDeleteUserRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authed/dev/apps/new': {
-      id: '/_authed/dev/apps/new'
+    '/_with_header/staff/users': {
+      id: '/_with_header/staff/users'
+      path: '/staff/users'
+      fullPath: '/staff/users'
+      preLoaderRoute: typeof With_headerStaffUsersRouteImport
+      parentRoute: typeof With_headerRoute
+    }
+    '/_with_header/staff/credentials': {
+      id: '/_with_header/staff/credentials'
+      path: '/staff/credentials'
+      fullPath: '/staff/credentials'
+      preLoaderRoute: typeof With_headerStaffCredentialsRouteImport
+      parentRoute: typeof With_headerRoute
+    }
+    '/_with_header/_authed/profile': {
+      id: '/_with_header/_authed/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof With_headerAuthedProfileRouteImport
+      parentRoute: typeof With_headerAuthedRoute
+    }
+    '/_with_header/_authed/dev': {
+      id: '/_with_header/_authed/dev'
+      path: '/dev'
+      fullPath: '/dev'
+      preLoaderRoute: typeof With_headerAuthedDevRouteImport
+      parentRoute: typeof With_headerAuthedRoute
+    }
+    '/_with_header/_authed/profile/': {
+      id: '/_with_header/_authed/profile/'
+      path: '/'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof With_headerAuthedProfileIndexRouteImport
+      parentRoute: typeof With_headerAuthedProfileRoute
+    }
+    '/_with_header/_authed/dev/': {
+      id: '/_with_header/_authed/dev/'
+      path: '/'
+      fullPath: '/dev/'
+      preLoaderRoute: typeof With_headerAuthedDevIndexRouteImport
+      parentRoute: typeof With_headerAuthedDevRoute
+    }
+    '/_with_header/_authed/profile/connected-apps': {
+      id: '/_with_header/_authed/profile/connected-apps'
+      path: '/connected-apps'
+      fullPath: '/profile/connected-apps'
+      preLoaderRoute: typeof With_headerAuthedProfileConnectedAppsRouteImport
+      parentRoute: typeof With_headerAuthedProfileRoute
+    }
+    '/_with_header/_authed/dev/apps/new': {
+      id: '/_with_header/_authed/dev/apps/new'
       path: '/apps/new'
       fullPath: '/dev/apps/new'
-      preLoaderRoute: typeof AuthedDevAppsNewRouteImport
-      parentRoute: typeof AuthedDevRoute
+      preLoaderRoute: typeof With_headerAuthedDevAppsNewRouteImport
+      parentRoute: typeof With_headerAuthedDevRoute
     }
-    '/_authed/dev/app/$id': {
-      id: '/_authed/dev/app/$id'
+    '/_with_header/_authed/dev/app/$id': {
+      id: '/_with_header/_authed/dev/app/$id'
       path: '/app/$id'
       fullPath: '/dev/app/$id'
-      preLoaderRoute: typeof AuthedDevAppIdRouteImport
-      parentRoute: typeof AuthedDevRoute
+      preLoaderRoute: typeof With_headerAuthedDevAppIdRouteImport
+      parentRoute: typeof With_headerAuthedDevRoute
     }
   }
 }
 
-interface AuthedDevRouteChildren {
-  AuthedDevIndexRoute: typeof AuthedDevIndexRoute
-  AuthedDevAppIdRoute: typeof AuthedDevAppIdRoute
-  AuthedDevAppsNewRoute: typeof AuthedDevAppsNewRoute
+interface AuthflowRouteChildren {
+  AuthflowConsentRoute: typeof AuthflowConsentRoute
+  AuthflowLoginRoute: typeof AuthflowLoginRoute
 }
 
-const AuthedDevRouteChildren: AuthedDevRouteChildren = {
-  AuthedDevIndexRoute: AuthedDevIndexRoute,
-  AuthedDevAppIdRoute: AuthedDevAppIdRoute,
-  AuthedDevAppsNewRoute: AuthedDevAppsNewRoute,
+const AuthflowRouteChildren: AuthflowRouteChildren = {
+  AuthflowConsentRoute: AuthflowConsentRoute,
+  AuthflowLoginRoute: AuthflowLoginRoute,
 }
 
-const AuthedDevRouteWithChildren = AuthedDevRoute._addFileChildren(
-  AuthedDevRouteChildren,
+const AuthflowRouteWithChildren = AuthflowRoute._addFileChildren(
+  AuthflowRouteChildren,
 )
 
-interface AuthedRouteChildren {
-  AuthedDevRoute: typeof AuthedDevRouteWithChildren
+interface With_headerAuthedDevRouteChildren {
+  With_headerAuthedDevIndexRoute: typeof With_headerAuthedDevIndexRoute
+  With_headerAuthedDevAppIdRoute: typeof With_headerAuthedDevAppIdRoute
+  With_headerAuthedDevAppsNewRoute: typeof With_headerAuthedDevAppsNewRoute
 }
 
-const AuthedRouteChildren: AuthedRouteChildren = {
-  AuthedDevRoute: AuthedDevRouteWithChildren,
+const With_headerAuthedDevRouteChildren: With_headerAuthedDevRouteChildren = {
+  With_headerAuthedDevIndexRoute: With_headerAuthedDevIndexRoute,
+  With_headerAuthedDevAppIdRoute: With_headerAuthedDevAppIdRoute,
+  With_headerAuthedDevAppsNewRoute: With_headerAuthedDevAppsNewRoute,
 }
 
-const AuthedRouteWithChildren =
-  AuthedRoute._addFileChildren(AuthedRouteChildren)
+const With_headerAuthedDevRouteWithChildren =
+  With_headerAuthedDevRoute._addFileChildren(With_headerAuthedDevRouteChildren)
 
-interface ProfileRouteChildren {
-  ProfileConnectedAppsRoute: typeof ProfileConnectedAppsRoute
-  ProfileIndexRoute: typeof ProfileIndexRoute
+interface With_headerAuthedProfileRouteChildren {
+  With_headerAuthedProfileConnectedAppsRoute: typeof With_headerAuthedProfileConnectedAppsRoute
+  With_headerAuthedProfileIndexRoute: typeof With_headerAuthedProfileIndexRoute
 }
 
-const ProfileRouteChildren: ProfileRouteChildren = {
-  ProfileConnectedAppsRoute: ProfileConnectedAppsRoute,
-  ProfileIndexRoute: ProfileIndexRoute,
+const With_headerAuthedProfileRouteChildren: With_headerAuthedProfileRouteChildren =
+  {
+    With_headerAuthedProfileConnectedAppsRoute:
+      With_headerAuthedProfileConnectedAppsRoute,
+    With_headerAuthedProfileIndexRoute: With_headerAuthedProfileIndexRoute,
+  }
+
+const With_headerAuthedProfileRouteWithChildren =
+  With_headerAuthedProfileRoute._addFileChildren(
+    With_headerAuthedProfileRouteChildren,
+  )
+
+interface With_headerAuthedRouteChildren {
+  With_headerAuthedDevRoute: typeof With_headerAuthedDevRouteWithChildren
+  With_headerAuthedProfileRoute: typeof With_headerAuthedProfileRouteWithChildren
 }
 
-const ProfileRouteWithChildren =
-  ProfileRoute._addFileChildren(ProfileRouteChildren)
+const With_headerAuthedRouteChildren: With_headerAuthedRouteChildren = {
+  With_headerAuthedDevRoute: With_headerAuthedDevRouteWithChildren,
+  With_headerAuthedProfileRoute: With_headerAuthedProfileRouteWithChildren,
+}
+
+const With_headerAuthedRouteWithChildren =
+  With_headerAuthedRoute._addFileChildren(With_headerAuthedRouteChildren)
+
+interface With_headerRouteChildren {
+  With_headerAuthedRoute: typeof With_headerAuthedRouteWithChildren
+  With_headerIndexRoute: typeof With_headerIndexRoute
+  With_headerStaffCredentialsRoute: typeof With_headerStaffCredentialsRoute
+  With_headerStaffUsersRoute: typeof With_headerStaffUsersRoute
+}
+
+const With_headerRouteChildren: With_headerRouteChildren = {
+  With_headerAuthedRoute: With_headerAuthedRouteWithChildren,
+  With_headerIndexRoute: With_headerIndexRoute,
+  With_headerStaffCredentialsRoute: With_headerStaffCredentialsRoute,
+  With_headerStaffUsersRoute: With_headerStaffUsersRoute,
+}
+
+const With_headerRouteWithChildren = With_headerRoute._addFileChildren(
+  With_headerRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AuthedRoute: AuthedRouteWithChildren,
-  ConcentRoute: ConcentRoute,
-  ConsentRoute: ConsentRoute,
-  LoginRoute: LoginRoute,
-  ProfileRoute: ProfileRouteWithChildren,
-  AdminCredentialsRoute: AdminCredentialsRoute,
-  AdminUsersRoute: AdminUsersRoute,
+  AuthflowRoute: AuthflowRouteWithChildren,
+  With_headerRoute: With_headerRouteWithChildren,
   ApiAdminDeleteUserRoute: ApiAdminDeleteUserRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiUserDataUserIdRoute: ApiUserDataUserIdRoute,

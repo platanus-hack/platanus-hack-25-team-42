@@ -28,7 +28,7 @@ const getCredentials = createServerFn({
   return credentials;
 });
 
-export const Route = createFileRoute("/admin/credentials")({
+export const Route = createFileRoute("/_with_header/staff/credentials")({
   component: AdminCredentialsPage,
   loader: async () => {
     const credentials = await getCredentials();

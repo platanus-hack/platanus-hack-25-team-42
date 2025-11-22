@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { z } from "zod";
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/_authflow/login")({
   validateSearch: z.object({
     redirect: z.string().optional(),
   }),

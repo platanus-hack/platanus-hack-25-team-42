@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { authClient } from "@/integrations/auth/client";
 import { useState } from "react";
 
-export const Route = createFileRoute("/concent")({
+export const Route = createFileRoute("/_authflow/consent")({
   component: ConsentPage,
 });
 
