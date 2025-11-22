@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getUserData, createUserData, getUserDataByTypeList } from "@/db/crud/user_data";
+import { getUserData, createUserData, getUserDataByTypeList, getLastValidatedUserDataByTypeList } from "@/db/crud/user_data";
 
 export const Route = createFileRoute("/api/user-data/$userId")({
     server: {
@@ -8,11 +8,16 @@ export const Route = createFileRoute("/api/user-data/$userId")({
                 try {
                     const url = new URL(request.url);
                     const typesParam = url.searchParams.get("types");
+                    const validatedParam = url.searchParams.get("validated");
 
                     let data;
                     if (typesParam) {
                         const types = typesParam.split(",");
-                        data = await getUserDataByTypeList(params.userId, types);
+                        if (validatedParam === "true") {
+                            data = await getLastValidatedUserDataByTypeList(params.userId, types);
+                        } else {
+                            data = await getUserDataByTypeList(params.userId, types);
+                        }
                     } else {
                         data = await getUserData(params.userId);
                     }
