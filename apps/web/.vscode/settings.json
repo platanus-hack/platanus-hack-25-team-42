@@ -1,0 +1,10 @@
+{
+  "search.exclude": {
+    "**/routeTree.gen.ts": true,
+    "**/_generated/**": true
+  },
+  "files.readonlyInclude": {
+    "**/routeTree.gen.ts": true,
+    "**/_generated/**": true
+  }
+}
