@@ -99,7 +99,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-pink-50">
       <div className="container mx-auto px-4 py-8">
         {/* OAuth2 Client Registration Form */}
         <div className="max-w-2xl mt-8">

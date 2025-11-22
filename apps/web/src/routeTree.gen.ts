@@ -11,7 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ConsentRouteImport } from './routes/consent'
+import { Route as ProfileRouteRouteImport } from './routes/profile/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfilePermisosRouteImport } from './routes/profile/permisos'
+import { Route as ProfileDocumentosRouteImport } from './routes/profile/documentos'
+import { Route as ProfileDatosRouteImport } from './routes/profile/datos'
 import { Route as DevAppsRouteImport } from './routes/dev/apps'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as ApiUserDataUserIdRouteImport } from './routes/api.user-data.$userId'
@@ -28,10 +32,30 @@ const ConsentRoute = ConsentRouteImport.update({
   path: '/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileRouteRoute = ProfileRouteRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilePermisosRoute = ProfilePermisosRouteImport.update({
+  id: '/permisos',
+  path: '/permisos',
+  getParentRoute: () => ProfileRouteRoute,
+} as any)
+const ProfileDocumentosRoute = ProfileDocumentosRouteImport.update({
+  id: '/documentos',
+  path: '/documentos',
+  getParentRoute: () => ProfileRouteRoute,
+} as any)
+const ProfileDatosRoute = ProfileDatosRouteImport.update({
+  id: '/datos',
+  path: '/datos',
+  getParentRoute: () => ProfileRouteRoute,
 } as any)
 const DevAppsRoute = DevAppsRouteImport.update({
   id: '/dev/apps',
@@ -61,20 +85,28 @@ const ApiAdminDeleteUserRoute = ApiAdminDeleteUserRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRouteRouteWithChildren
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
   '/admin/users': typeof AdminUsersRoute
   '/dev/apps': typeof DevAppsRoute
+  '/profile/datos': typeof ProfileDatosRoute
+  '/profile/documentos': typeof ProfileDocumentosRoute
+  '/profile/permisos': typeof ProfilePermisosRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRouteRouteWithChildren
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
   '/admin/users': typeof AdminUsersRoute
   '/dev/apps': typeof DevAppsRoute
+  '/profile/datos': typeof ProfileDatosRoute
+  '/profile/documentos': typeof ProfileDocumentosRoute
+  '/profile/permisos': typeof ProfilePermisosRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
@@ -82,10 +114,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRouteRouteWithChildren
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
   '/admin/users': typeof AdminUsersRoute
   '/dev/apps': typeof DevAppsRoute
+  '/profile/datos': typeof ProfileDatosRoute
+  '/profile/documentos': typeof ProfileDocumentosRoute
+  '/profile/permisos': typeof ProfilePermisosRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
@@ -94,30 +130,42 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/profile'
     | '/consent'
     | '/login'
     | '/admin/users'
     | '/dev/apps'
+    | '/profile/datos'
+    | '/profile/documentos'
+    | '/profile/permisos'
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/api/user-data/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/profile'
     | '/consent'
     | '/login'
     | '/admin/users'
     | '/dev/apps'
+    | '/profile/datos'
+    | '/profile/documentos'
+    | '/profile/permisos'
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/api/user-data/$userId'
   id:
     | '__root__'
     | '/'
+    | '/profile'
     | '/consent'
     | '/login'
     | '/admin/users'
     | '/dev/apps'
+    | '/profile/datos'
+    | '/profile/documentos'
+    | '/profile/permisos'
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/api/user-data/$userId'
@@ -125,6 +173,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProfileRouteRoute: typeof ProfileRouteRouteWithChildren
   ConsentRoute: typeof ConsentRoute
   LoginRoute: typeof LoginRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -150,12 +199,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/profile/permisos': {
+      id: '/profile/permisos'
+      path: '/permisos'
+      fullPath: '/profile/permisos'
+      preLoaderRoute: typeof ProfilePermisosRouteImport
+      parentRoute: typeof ProfileRouteRoute
+    }
+    '/profile/documentos': {
+      id: '/profile/documentos'
+      path: '/documentos'
+      fullPath: '/profile/documentos'
+      preLoaderRoute: typeof ProfileDocumentosRouteImport
+      parentRoute: typeof ProfileRouteRoute
+    }
+    '/profile/datos': {
+      id: '/profile/datos'
+      path: '/datos'
+      fullPath: '/profile/datos'
+      preLoaderRoute: typeof ProfileDatosRouteImport
+      parentRoute: typeof ProfileRouteRoute
     }
     '/dev/apps': {
       id: '/dev/apps'
@@ -195,8 +272,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ProfileRouteRouteChildren {
+  ProfileDatosRoute: typeof ProfileDatosRoute
+  ProfileDocumentosRoute: typeof ProfileDocumentosRoute
+  ProfilePermisosRoute: typeof ProfilePermisosRoute
+}
+
+const ProfileRouteRouteChildren: ProfileRouteRouteChildren = {
+  ProfileDatosRoute: ProfileDatosRoute,
+  ProfileDocumentosRoute: ProfileDocumentosRoute,
+  ProfilePermisosRoute: ProfilePermisosRoute,
+}
+
+const ProfileRouteRouteWithChildren = ProfileRouteRoute._addFileChildren(
+  ProfileRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProfileRouteRoute: ProfileRouteRouteWithChildren,
   ConsentRoute: ConsentRoute,
   LoginRoute: LoginRoute,
   AdminUsersRoute: AdminUsersRoute,

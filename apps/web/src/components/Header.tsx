@@ -1,8 +1,14 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { authClient } from "@/integrations/auth/client";
 
 export function Header() {
   const { data: session } = authClient.useSession();
+  const router = useRouterState();
+  const pathname = router.location.pathname;
+
+  if (pathname.startsWith("/login") || pathname.startsWith("/profile")) {
+    return null;
+  }
 
   return (
     <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
@@ -11,7 +17,7 @@ export function Header() {
           <Link to="/" className="text-xl font-bold text-white hover:text-blue-400 transition-colors">
             Platanus Auth
           </Link>
-          
+
           <nav className="hidden md:flex items-center gap-6">
             <Link 
               to="/" 
