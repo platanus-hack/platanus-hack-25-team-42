@@ -37,7 +37,7 @@ export const session = pgTable(
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
   },
-  (table) => [index("session_userId_idx").on(table.userId)],
+  (table) => [index("session_userId_idx").on(table.userId)]
 );
 
 export const account = pgTable(
@@ -61,7 +61,7 @@ export const account = pgTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
-  (table) => [index("account_userId_idx").on(table.userId)],
+  (table) => [index("account_userId_idx").on(table.userId)]
 );
 
 export const verification = pgTable(
@@ -77,7 +77,7 @@ export const verification = pgTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
-  (table) => [index("verification_identifier_idx").on(table.identifier)],
+  (table) => [index("verification_identifier_idx").on(table.identifier)]
 );
 
 export const oauthApplication = pgTable("oauth_application", {
@@ -87,7 +87,7 @@ export const oauthApplication = pgTable("oauth_application", {
   metadata: text("metadata"),
   clientId: text("client_id").unique(),
   clientSecret: text("client_secret"),
-  redirectURLs: text("redirect_ur_ls"),
+  redirectURLs: text("redirect_urls"),
   type: text("type"),
   disabled: boolean("disabled").default(false),
   userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
@@ -170,7 +170,7 @@ export const oauthApplicationRelations = relations(
     }),
     oauthAccessTokens: many(oauthAccessToken),
     oauthConsents: many(oauthConsent),
-  }),
+  })
 );
 
 export const oauthAccessTokenRelations = relations(
@@ -184,7 +184,7 @@ export const oauthAccessTokenRelations = relations(
       fields: [oauthAccessToken.userId],
       references: [user.id],
     }),
-  }),
+  })
 );
 
 export const oauthConsentRelations = relations(oauthConsent, ({ one }) => ({
