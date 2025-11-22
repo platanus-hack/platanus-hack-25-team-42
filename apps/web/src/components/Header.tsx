@@ -14,13 +14,16 @@ export function Header() {
     <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link to="/" className="text-xl font-bold text-white hover:text-blue-400 transition-colors">
+          <Link
+            to="/"
+            className="text-xl font-bold text-white hover:text-blue-400 transition-colors"
+          >
             Platanus Auth
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
               activeProps={{ className: "text-white" }}
             >
@@ -28,15 +31,23 @@ export function Header() {
             </Link>
             {session && (
               <>
-                <Link 
-                  to="/admin/users" 
+                <Link
+                  to="/admin/users"
                   className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
                   activeProps={{ className: "text-white" }}
                 >
-                  Users
+                  User
                 </Link>
-                <Link 
-                  to="/admin/credentials" 
+                <Link
+                  to="/admin/users"
+                  className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
+                  activeProps={{ className: "text-white" }}
+                >
+                  User
+                </Link>
+
+                <Link
+                  to="/admin/credentials"
                   className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
                   activeProps={{ className: "text-white" }}
                 >
@@ -63,8 +74,12 @@ export function Header() {
                   </div>
                 )}
                 <div className="hidden sm:block text-right">
-                  <p className="text-white text-sm font-medium leading-none">{session.user.name}</p>
-                  <p className="text-slate-400 text-xs leading-none mt-1">{session.user.email}</p>
+                  <p className="text-white text-sm font-medium leading-none">
+                    {session.user.name}
+                  </p>
+                  <p className="text-slate-400 text-xs leading-none mt-1">
+                    {session.user.email}
+                  </p>
                 </div>
               </div>
               <button
@@ -78,6 +93,7 @@ export function Header() {
             <Link
               to="/login"
               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm font-medium"
+              search={{ redirect: pathname }}
             >
               Sign In
             </Link>

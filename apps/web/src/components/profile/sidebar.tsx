@@ -1,18 +1,14 @@
-import { User, FileText, Shield, LogOut, Sparkles } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Sidebar, SidebarProfile, SidebarNav, SidebarNavItem, SidebarFooter } from "@/components/ui/sidebar"
+import { User, LogOut, Sparkles, AppWindow } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Sidebar,
+  SidebarProfile,
+  SidebarNav,
+  SidebarNavItem,
+  SidebarFooter,
+} from "@/components/ui/sidebar";
 
-interface SidebarProps {
-  activeView: string
-}
-
-export default function ProfileSidebar({ activeView }: SidebarProps) {
-  const navItems = [
-    { id: "datos", label: "Mis Datos", icon: User, description: "Información general", path: "/profile/datos" },
-    { id: "documentos", label: "Documentos", icon: FileText, description: "Archivos validados", path: "/profile/documentos" },
-    { id: "permisos", label: "Permisos", icon: Shield, description: "Accesos de terceros", path: "/profile/permisos" },
-  ]
-
+export default function ProfileSidebar() {
   return (
     <Sidebar>
       <div className="space-y-8">
@@ -27,25 +23,30 @@ export default function ProfileSidebar({ activeView }: SidebarProps) {
         />
 
         <SidebarNav>
-          {navItems.map((item) => (
-            <SidebarNavItem
-              key={item.id}
-              to={item.path}
-              label={item.label}
-              icon={item.icon}
-              description={item.description}
-              isActive={activeView === item.id}
-            />
-          ))}
+          <SidebarNavItem
+            to="/profile/"
+            label="Mis Datos"
+            icon={User}
+            description="Información general"
+          />
+          <SidebarNavItem
+            to="/profile/connected-apps"
+            label="Aplicaciones Conectadas"
+            icon={AppWindow}
+            description="Aplicaciones que has conectado"
+          />
         </SidebarNav>
       </div>
 
       <SidebarFooter>
-        <Button variant="ghost" className="w-full justify-start gap-3 text-gray-500 hover:text-red-500 hover:bg-red-50/50">
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 text-gray-500 hover:text-red-500 hover:bg-red-50/50"
+        >
           <LogOut size={18} />
           <span className="text-sm font-semibold">Cerrar Sesión</span>
         </Button>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

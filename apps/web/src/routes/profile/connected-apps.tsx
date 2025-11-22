@@ -51,7 +51,7 @@ const MOCK_COMPANIES: Company[] = [
   },
 ]
 
-export const Route = createFileRoute("/profile/permisos")({
+export const Route = createFileRoute("/profile/connected-apps")({
   component: PermissionsView,
 });
 
