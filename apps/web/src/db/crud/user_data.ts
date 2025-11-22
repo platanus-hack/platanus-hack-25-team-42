@@ -1,20 +1,30 @@
 import { eq, and, inArray, desc } from "drizzle-orm";
 import { userData } from "../schema";
 import { db } from "..";
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+import { userDataTypeList } from "../data_types";
 
-type NewUserData = typeof userData.$inferInsert;
 
-export const getUserData = async (userId: string) => {
+export const getUserData = createServerFn().inputValidator(z.object({
+    userId: z.string(),
+})).handler(async ({ data: { userId } }) => {
     const data = await db.select().from(userData).where(eq(userData.userId, userId));
     return data;
-};
+});
 
-export const getUserDataByTypeList = async (userId: string, types: string[]) => {
+export const getUserDataByTypeList = createServerFn().inputValidator(z.object({
+    userId: z.string(),
+    types: z.array(z.string())
+})).handler(async ({ data: { userId, types } }) => {
     const data = (await db.select().from(userData).where(eq(userData.userId, userId))).filter((data) => types.includes(data.type));
     return data;
-};
+});
 
-export const getLastValidatedUserDataByTypeList = async (userId: string, types: string[]) => {
+export const getLastValidatedUserDataByTypeList = createServerFn().inputValidator(z.object({
+    userId: z.string(),
+    types: z.array(z.string())
+})).handler(async ({ data: { userId, types } }) => {
     return await db
         .selectDistinctOn([userData.type])
         .from(userData)
@@ -26,8 +36,15 @@ export const getLastValidatedUserDataByTypeList = async (userId: string, types: 
             )
         )
         .orderBy(userData.type, desc(userData.createdAt));
-};
+});
 
-export const createUserData = async (data: NewUserData) => {
+export const createUserData = createServerFn().inputValidator(z.object({
+    id: z.string(),
+    userId: z.string(),
+    type: z.enum(userDataTypeList),
+    value: z.string(),
+    isValidated: z.boolean().optional(),
+    createdAt: z.coerce.date().optional(),
+})).handler(async ({ data }) => {
     return await db.insert(userData).values(data);
-};
+});

@@ -14,12 +14,12 @@ export const Route = createFileRoute("/api/user-data/$userId")({
                     if (typesParam) {
                         const types = typesParam.split(",");
                         if (validatedParam === "true") {
-                            data = await getLastValidatedUserDataByTypeList(params.userId, types);
+                            data = await getLastValidatedUserDataByTypeList({ data: { userId: params.userId, types } });
                         } else {
-                            data = await getUserDataByTypeList(params.userId, types);
+                            data = await getUserDataByTypeList({ data: { userId: params.userId, types } });
                         }
                     } else {
-                        data = await getUserData(params.userId);
+                        data = await getUserData({ data: { userId: params.userId } });
                     }
 
                     return new Response(JSON.stringify(data), {
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/api/user-data/$userId")({
                     // Ensure userId from params is used
                     const newData = { ...body, userId: params.userId };
 
-                    const result = await createUserData(newData);
+                    const result = await createUserData({ data: newData });
 
                     return new Response(JSON.stringify(result), {
                         status: 201,
