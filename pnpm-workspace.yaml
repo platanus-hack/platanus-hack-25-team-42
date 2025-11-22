@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+
+packageManagerStrictVersion: true
+
+useNodeVersion: 24.9.0
+
+verifyDepsBeforeRun: install
