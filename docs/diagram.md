@@ -3,18 +3,8 @@
 ```mermaid
 erDiagram
 
-    companies {
-        int id PK
-        string name
-        string industry
-        string contact_email
-        datetime created_at
-        datetime updated_at
-    }
-
     client_apps {
         int id PK
-        int company_id FK
         string app_name
         string app_logo_url
         string client_id
@@ -79,7 +69,6 @@ erDiagram
 
     %% RELATIONSHIPS
 
-    companies ||--o{ client_apps : "tiene"
     users ||--o{ user_profile_fields : "posee"
     users ||--o{ user_files : "posee"
     users ||--o{ user_field_permissions : "otorga permiso"
