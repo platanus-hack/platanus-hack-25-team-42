@@ -5,7 +5,7 @@ import { SocialLoginButton } from "./SocialLoginButton";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export function LoginForm() {
-  const data = useSearch({ from: "/login" });
+  const data = useSearch({ from: "/_authflow/login" });
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");

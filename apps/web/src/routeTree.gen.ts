@@ -15,7 +15,6 @@ import { Route as With_headerIndexRouteImport } from './routes/_with_header/inde
 import { Route as With_headerAuthedRouteImport } from './routes/_with_header/_authed'
 import { Route as AuthflowLoginRouteImport } from './routes/_authflow/login'
 import { Route as AuthflowConsentRouteImport } from './routes/_authflow/consent'
-import { Route as ApiUserDataUserIdRouteImport } from './routes/api.user-data.$userId'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAdminDeleteUserRouteImport } from './routes/api/admin/delete-user'
 import { Route as With_headerStaffUsersRouteImport } from './routes/_with_header/staff/users'
@@ -53,11 +52,6 @@ const AuthflowConsentRoute = AuthflowConsentRouteImport.update({
   id: '/consent',
   path: '/consent',
   getParentRoute: () => AuthflowRoute,
-} as any)
-const ApiUserDataUserIdRoute = ApiUserDataUserIdRouteImport.update({
-  id: '/api/user-data/$userId',
-  path: '/api/user-data/$userId',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -125,7 +119,6 @@ export interface FileRoutesByFullPath {
   '/staff/users': typeof With_headerStaffUsersRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
   '/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
   '/dev/': typeof With_headerAuthedDevIndexRoute
   '/profile/': typeof With_headerAuthedProfileIndexRoute
@@ -139,7 +132,6 @@ export interface FileRoutesByTo {
   '/staff/users': typeof With_headerStaffUsersRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
   '/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
   '/dev': typeof With_headerAuthedDevIndexRoute
   '/profile': typeof With_headerAuthedProfileIndexRoute
@@ -159,7 +151,6 @@ export interface FileRoutesById {
   '/_with_header/staff/users': typeof With_headerStaffUsersRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/user-data/$userId': typeof ApiUserDataUserIdRoute
   '/_with_header/_authed/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
   '/_with_header/_authed/dev/': typeof With_headerAuthedDevIndexRoute
   '/_with_header/_authed/profile/': typeof With_headerAuthedProfileIndexRoute
@@ -177,7 +168,6 @@ export interface FileRouteTypes {
     | '/staff/users'
     | '/api/admin/delete-user'
     | '/api/auth/$'
-    | '/api/user-data/$userId'
     | '/profile/connected-apps'
     | '/dev/'
     | '/profile/'
@@ -191,7 +181,6 @@ export interface FileRouteTypes {
     | '/staff/users'
     | '/api/admin/delete-user'
     | '/api/auth/$'
-    | '/api/user-data/$userId'
     | '/profile/connected-apps'
     | '/dev'
     | '/profile'
@@ -210,7 +199,6 @@ export interface FileRouteTypes {
     | '/_with_header/staff/users'
     | '/api/admin/delete-user'
     | '/api/auth/$'
-    | '/api/user-data/$userId'
     | '/_with_header/_authed/profile/connected-apps'
     | '/_with_header/_authed/dev/'
     | '/_with_header/_authed/profile/'
@@ -223,7 +211,6 @@ export interface RootRouteChildren {
   With_headerRoute: typeof With_headerRouteWithChildren
   ApiAdminDeleteUserRoute: typeof ApiAdminDeleteUserRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  ApiUserDataUserIdRoute: typeof ApiUserDataUserIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -269,13 +256,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/consent'
       preLoaderRoute: typeof AuthflowConsentRouteImport
       parentRoute: typeof AuthflowRoute
-    }
-    '/api/user-data/$userId': {
-      id: '/api/user-data/$userId'
-      path: '/api/user-data/$userId'
-      fullPath: '/api/user-data/$userId'
-      preLoaderRoute: typeof ApiUserDataUserIdRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -430,7 +410,6 @@ const rootRouteChildren: RootRouteChildren = {
   With_headerRoute: With_headerRouteWithChildren,
   ApiAdminDeleteUserRoute: ApiAdminDeleteUserRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  ApiUserDataUserIdRoute: ApiUserDataUserIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
