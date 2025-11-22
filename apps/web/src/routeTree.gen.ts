@@ -18,6 +18,7 @@ import { Route as ProfileDocumentosRouteImport } from './routes/profile/document
 import { Route as ProfileDatosRouteImport } from './routes/profile/datos'
 import { Route as DevAppsRouteImport } from './routes/dev/apps'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminCredentialsRouteImport } from './routes/admin/credentials'
 import { Route as ApiUserDataUserIdRouteImport } from './routes/api.user-data.$userId'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAdminDeleteUserRouteImport } from './routes/api/admin/delete-user'
@@ -67,6 +68,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/admin/users',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCredentialsRoute = AdminCredentialsRouteImport.update({
+  id: '/admin/credentials',
+  path: '/admin/credentials',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiUserDataUserIdRoute = ApiUserDataUserIdRouteImport.update({
   id: '/api/user-data/$userId',
   path: '/api/user-data/$userId',
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRouteRouteWithChildren
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
+  '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/users': typeof AdminUsersRoute
   '/dev/apps': typeof DevAppsRoute
   '/profile/datos': typeof ProfileDatosRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRouteRouteWithChildren
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
+  '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/users': typeof AdminUsersRoute
   '/dev/apps': typeof DevAppsRoute
   '/profile/datos': typeof ProfileDatosRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRouteRouteWithChildren
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
+  '/admin/credentials': typeof AdminCredentialsRoute
   '/admin/users': typeof AdminUsersRoute
   '/dev/apps': typeof DevAppsRoute
   '/profile/datos': typeof ProfileDatosRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/consent'
     | '/login'
+    | '/admin/credentials'
     | '/admin/users'
     | '/dev/apps'
     | '/profile/datos'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/consent'
     | '/login'
+    | '/admin/credentials'
     | '/admin/users'
     | '/dev/apps'
     | '/profile/datos'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/consent'
     | '/login'
+    | '/admin/credentials'
     | '/admin/users'
     | '/dev/apps'
     | '/profile/datos'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   ProfileRouteRoute: typeof ProfileRouteRouteWithChildren
   ConsentRoute: typeof ConsentRoute
   LoginRoute: typeof LoginRoute
+  AdminCredentialsRoute: typeof AdminCredentialsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   DevAppsRoute: typeof DevAppsRoute
   ApiAdminDeleteUserRoute: typeof ApiAdminDeleteUserRoute
@@ -248,6 +261,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/credentials': {
+      id: '/admin/credentials'
+      path: '/admin/credentials'
+      fullPath: '/admin/credentials'
+      preLoaderRoute: typeof AdminCredentialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/user-data/$userId': {
       id: '/api/user-data/$userId'
       path: '/api/user-data/$userId'
@@ -293,6 +313,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRouteRoute: ProfileRouteRouteWithChildren,
   ConsentRoute: ConsentRoute,
   LoginRoute: LoginRoute,
+  AdminCredentialsRoute: AdminCredentialsRoute,
   AdminUsersRoute: AdminUsersRoute,
   DevAppsRoute: DevAppsRoute,
   ApiAdminDeleteUserRoute: ApiAdminDeleteUserRoute,

@@ -27,13 +27,22 @@ export function Header() {
               Home
             </Link>
             {session && (
-              <Link 
-                to="/admin/users" 
-                className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
-                activeProps={{ className: "text-white" }}
-              >
-                Users
-              </Link>
+              <>
+                <Link 
+                  to="/admin/users" 
+                  className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
+                  activeProps={{ className: "text-white" }}
+                >
+                  Users
+                </Link>
+                <Link 
+                  to="/admin/credentials" 
+                  className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
+                  activeProps={{ className: "text-white" }}
+                >
+                  Credentials
+                </Link>
+              </>
             )}
           </nav>
         </div>
