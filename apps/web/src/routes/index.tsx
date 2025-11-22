@@ -1,118 +1,270 @@
-import { createFileRoute } from '@tanstack/react-router'
-import {
-  Zap,
-  Server,
-  Route as RouteIcon,
-  Shield,
-  Waves,
-  Sparkles,
-} from 'lucide-react'
+import { db } from "@/db";
+import { postsTable } from "@/db/schema";
+import { authClient } from "@/integrations/auth/client";
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { useState } from "react";
 
-export const Route = createFileRoute('/')({ component: App })
+const getPosts = createServerFn({
+  method: "GET",
+}).handler(async () => {
+  // load posts from database
+  const posts = await db.select().from(postsTable);
+  return posts;
+});
+
+const createPost = createServerFn({
+  method: "POST",
+}).handler(async () => {
+  // create post in database
+  await db.insert(postsTable).values({
+    title: "New Post",
+    content: "New Post Content",
+  });
+});
+
+export const Route = createFileRoute("/")({
+  component: App,
+
+  loader: async () => {
+    const posts = await getPosts();
+    return {
+      posts,
+    };
+  },
+});
 
 function App() {
-  const features = [
-    {
-      icon: <Zap className="w-12 h-12 text-cyan-400" />,
-      title: 'Powerful Server Functions',
-      description:
-        'Write server-side code that seamlessly integrates with your client components. Type-safe, secure, and simple.',
+  const { posts } = Route.useLoaderData();
+  const router = useRouter();
+
+  const createPostMutation = useMutation({
+    mutationFn: createPost,
+    onSuccess: () => {
+      router.invalidate();
     },
-    {
-      icon: <Server className="w-12 h-12 text-cyan-400" />,
-      title: 'Flexible Server Side Rendering',
-      description:
-        'Full-document SSR, streaming, and progressive enhancement out of the box. Control exactly what renders where.',
+  });
+
+  const [formData, setFormData] = useState({
+    client_name: "",
+    client_uri: "",
+    logo_uri: "",
+    redirect_uris: "",
+    scope: "profile email",
+  });
+
+  const registerNewApp = useMutation({
+    mutationFn: async (data: typeof formData) => {
+      const redirect_uris_array = data.redirect_uris
+        .split(",")
+        .map((uri) => uri.trim())
+        .filter(Boolean);
+
+      const { data: responseData, error } = await authClient.oauth2.register({
+        client_name: data.client_name,
+        client_uri: data.client_uri,
+        logo_uri: data.logo_uri || undefined,
+        redirect_uris: redirect_uris_array,
+        scope: data.scope,
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      return responseData;
     },
-    {
-      icon: <RouteIcon className="w-12 h-12 text-cyan-400" />,
-      title: 'API Routes',
-      description:
-        'Build type-safe API endpoints alongside your application. No separate backend needed.',
+    onSuccess: () => {
+      // Reset form on success
+      setFormData({
+        client_name: "",
+        client_uri: "",
+        logo_uri: "",
+        redirect_uris: "",
+        scope: "profile email",
+      });
     },
-    {
-      icon: <Shield className="w-12 h-12 text-cyan-400" />,
-      title: 'Strongly Typed Everything',
-      description:
-        'End-to-end type safety from server to client. Catch errors before they reach production.',
-    },
-    {
-      icon: <Waves className="w-12 h-12 text-cyan-400" />,
-      title: 'Full Streaming Support',
-      description:
-        'Stream data from server to client progressively. Perfect for AI applications and real-time updates.',
-    },
-    {
-      icon: <Sparkles className="w-12 h-12 text-cyan-400" />,
-      title: 'Next Generation Ready',
-      description:
-        'Built from the ground up for modern web applications. Deploy anywhere JavaScript runs.',
-    },
-  ]
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    registerNewApp.mutate(formData);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      <section className="relative py-20 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10"></div>
-        <div className="relative max-w-5xl mx-auto">
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <img
-              src="/tanstack-circle-logo.png"
-              alt="TanStack Logo"
-              className="w-24 h-24 md:w-32 md:h-32"
-            />
-            <h1 className="text-6xl md:text-7xl font-black text-white [letter-spacing:-0.08em]">
-              <span className="text-gray-300">TANSTACK</span>{' '}
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                START
-              </span>
-            </h1>
-          </div>
-          <p className="text-2xl md:text-3xl text-gray-300 mb-4 font-light">
-            The framework for next generation AI applications
-          </p>
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
-            Full-stack framework powered by TanStack Router for React and Solid.
-            Build modern applications with server functions, streaming, and type
-            safety.
-          </p>
-          <div className="flex flex-col items-center gap-4">
-            <a
-              href="https://tanstack.com/start"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition-colors shadow-lg shadow-cyan-500/50"
-            >
-              Documentation
-            </a>
-            <p className="text-gray-400 text-sm mt-2">
-              Begin your TanStack Start journey by editing{' '}
-              <code className="px-2 py-1 bg-slate-700 rounded text-cyan-400">
-                /src/routes/index.tsx
-              </code>
-            </p>
-          </div>
-        </div>
-      </section>
+    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold text-white mb-8">Posts</h1>
+        <ul className="mb-8 space-y-2">
+          {posts.map((post) => (
+            <li key={post.id} className="text-white">
+              {post.title}
+            </li>
+          ))}
+        </ul>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded mb-8 hover:bg-blue-600 transition"
+          onClick={() => createPostMutation.mutate({})}
+        >
+          Create Post
+        </button>
 
-      <section className="py-16 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10"
-            >
-              <div className="mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold text-white mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-gray-400 leading-relaxed">
-                {feature.description}
+        {/* OAuth2 Client Registration Form */}
+        <div className="max-w-2xl mt-8">
+          <h2 className="text-3xl font-bold text-white mb-6">
+            Register OAuth2 Client
+          </h2>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                htmlFor="client_name"
+                className="block text-white mb-2 font-medium"
+              >
+                Client Name *
+              </label>
+              <input
+                type="text"
+                id="client_name"
+                name="client_name"
+                value={formData.client_name}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 rounded bg-slate-800 text-white border border-slate-700 focus:border-blue-500 focus:outline-none"
+                placeholder="My Application"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="client_uri"
+                className="block text-white mb-2 font-medium"
+              >
+                Client URI *
+              </label>
+              <input
+                type="url"
+                id="client_uri"
+                name="client_uri"
+                value={formData.client_uri}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 rounded bg-slate-800 text-white border border-slate-700 focus:border-blue-500 focus:outline-none"
+                placeholder="https://example.com"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="logo_uri"
+                className="block text-white mb-2 font-medium"
+              >
+                Logo URI
+              </label>
+              <input
+                type="url"
+                id="logo_uri"
+                name="logo_uri"
+                value={formData.logo_uri}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 rounded bg-slate-800 text-white border border-slate-700 focus:border-blue-500 focus:outline-none"
+                placeholder="https://example.com/logo.png"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="redirect_uris"
+                className="block text-white mb-2 font-medium"
+              >
+                Redirect URIs * (comma-separated)
+              </label>
+              <textarea
+                id="redirect_uris"
+                name="redirect_uris"
+                value={formData.redirect_uris}
+                onChange={handleInputChange}
+                required
+                rows={3}
+                className="w-full px-4 py-2 rounded bg-slate-800 text-white border border-slate-700 focus:border-blue-500 focus:outline-none"
+                placeholder="https://example.com/callback, https://example.com/auth"
+              />
+              <p className="text-slate-400 text-sm mt-1">
+                Enter multiple URIs separated by commas
               </p>
             </div>
-          ))}
+
+            <div>
+              <label
+                htmlFor="scope"
+                className="block text-white mb-2 font-medium"
+              >
+                Scope *
+              </label>
+              <input
+                type="text"
+                id="scope"
+                name="scope"
+                value={formData.scope}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-2 rounded bg-slate-800 text-white border border-slate-700 focus:border-blue-500 focus:outline-none"
+                placeholder="profile email"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={registerNewApp.isPending}
+              className="w-full bg-blue-500 text-white px-4 py-3 rounded font-medium hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {registerNewApp.isPending ? "Registering..." : "Register Client"}
+            </button>
+          </form>
+
+          {/* Status Messages */}
+          {registerNewApp.isSuccess && (
+            <div className="mt-4 p-4 bg-green-900/50 border border-green-700 rounded">
+              <h3 className="text-green-400 font-bold mb-2">
+                Client Registered Successfully!
+              </h3>
+              <div className="space-y-2 text-white">
+                <p>
+                  <span className="font-semibold">Client ID:</span>{" "}
+                  <code className="bg-slate-800 px-2 py-1 rounded">
+                    {registerNewApp.data.client_id}
+                  </code>
+                </p>
+                <p>
+                  <span className="font-semibold">Client Secret:</span>{" "}
+                  <code className="bg-slate-800 px-2 py-1 rounded">
+                    {registerNewApp.data.client_secret}
+                  </code>
+                </p>
+                <p className="text-yellow-400 text-sm mt-2">
+                  ⚠️ Save your client secret securely. It won't be shown again.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {registerNewApp.isError && (
+            <div className="mt-4 p-4 bg-red-900/50 border border-red-700 rounded">
+              <h3 className="text-red-400 font-bold mb-2">
+                Registration Failed
+              </h3>
+              <p className="text-white">{registerNewApp.error.message}</p>
+            </div>
+          )}
         </div>
-      </section>
+      </div>
     </div>
-  )
+  );
 }
