@@ -6,19 +6,12 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createServerFn } from "@tanstack/react-start";
-import { getRequestHeaders } from "@tanstack/react-start/server";
 import { QueryClient } from "@tanstack/react-query";
-
 import appCss from "../styles.css?url";
-import { auth } from "@/auth";
 
-const fetchAuth = createServerFn({ method: "GET" }).handler(async () => {
-  const session = await auth.api.getSession({
-    headers: getRequestHeaders(),
-  });
-
-  return session;
-});
+const fetchAuth = createServerFn({ method: "GET" }).handler(
+  async ({ context }) => context.getSession()
+);
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -49,7 +42,6 @@ export const Route = createRootRouteWithContext<{
       session,
     };
   },
-
   shellComponent: RootDocument,
 });
 
