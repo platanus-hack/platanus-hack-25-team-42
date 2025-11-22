@@ -49,7 +49,7 @@ function RouteComponent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {apps.map((app) => (
           <div key={app.clientId} className="bg-white p-4 rounded-md">
-            <Link to="/dev/app/$id" params={{ id: app.id }}>
+            <Link to="/dev/app/$clientId" params={{ clientId: app.clientId }}>
               {app.name}
             </Link>
           </div>

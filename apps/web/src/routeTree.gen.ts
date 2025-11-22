@@ -19,14 +19,13 @@ import { Route as ApiUserDataUserIdRouteImport } from './routes/api.user-data.$u
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAdminDeleteUserRouteImport } from './routes/api/admin/delete-user'
 import { Route as With_headerStaffUsersRouteImport } from './routes/_with_header/staff/users'
-import { Route as With_headerStaffCredentialsRouteImport } from './routes/_with_header/staff/credentials'
 import { Route as With_headerAuthedProfileRouteImport } from './routes/_with_header/_authed/profile'
 import { Route as With_headerAuthedDevRouteImport } from './routes/_with_header/_authed/dev'
 import { Route as With_headerAuthedProfileIndexRouteImport } from './routes/_with_header/_authed/profile/index'
 import { Route as With_headerAuthedDevIndexRouteImport } from './routes/_with_header/_authed/dev/index'
 import { Route as With_headerAuthedProfileConnectedAppsRouteImport } from './routes/_with_header/_authed/profile/connected-apps'
 import { Route as With_headerAuthedDevAppsNewRouteImport } from './routes/_with_header/_authed/dev/apps.new'
-import { Route as With_headerAuthedDevAppIdRouteImport } from './routes/_with_header/_authed/dev/app.$id'
+import { Route as With_headerAuthedDevAppClientIdRouteImport } from './routes/_with_header/_authed/dev/app.$clientId'
 
 const With_headerRoute = With_headerRouteImport.update({
   id: '/_with_header',
@@ -75,12 +74,6 @@ const With_headerStaffUsersRoute = With_headerStaffUsersRouteImport.update({
   path: '/staff/users',
   getParentRoute: () => With_headerRoute,
 } as any)
-const With_headerStaffCredentialsRoute =
-  With_headerStaffCredentialsRouteImport.update({
-    id: '/staff/credentials',
-    path: '/staff/credentials',
-    getParentRoute: () => With_headerRoute,
-  } as any)
 const With_headerAuthedProfileRoute =
   With_headerAuthedProfileRouteImport.update({
     id: '/profile',
@@ -116,10 +109,10 @@ const With_headerAuthedDevAppsNewRoute =
     path: '/apps/new',
     getParentRoute: () => With_headerAuthedDevRoute,
   } as any)
-const With_headerAuthedDevAppIdRoute =
-  With_headerAuthedDevAppIdRouteImport.update({
-    id: '/app/$id',
-    path: '/app/$id',
+const With_headerAuthedDevAppClientIdRoute =
+  With_headerAuthedDevAppClientIdRouteImport.update({
+    id: '/app/$clientId',
+    path: '/app/$clientId',
     getParentRoute: () => With_headerAuthedDevRoute,
   } as any)
 
@@ -129,7 +122,6 @@ export interface FileRoutesByFullPath {
   '/': typeof With_headerIndexRoute
   '/dev': typeof With_headerAuthedDevRouteWithChildren
   '/profile': typeof With_headerAuthedProfileRouteWithChildren
-  '/staff/credentials': typeof With_headerStaffCredentialsRoute
   '/staff/users': typeof With_headerStaffUsersRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -137,14 +129,13 @@ export interface FileRoutesByFullPath {
   '/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
   '/dev/': typeof With_headerAuthedDevIndexRoute
   '/profile/': typeof With_headerAuthedProfileIndexRoute
-  '/dev/app/$id': typeof With_headerAuthedDevAppIdRoute
+  '/dev/app/$clientId': typeof With_headerAuthedDevAppClientIdRoute
   '/dev/apps/new': typeof With_headerAuthedDevAppsNewRoute
 }
 export interface FileRoutesByTo {
   '/consent': typeof AuthflowConsentRoute
   '/login': typeof AuthflowLoginRoute
   '/': typeof With_headerIndexRoute
-  '/staff/credentials': typeof With_headerStaffCredentialsRoute
   '/staff/users': typeof With_headerStaffUsersRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -152,7 +143,7 @@ export interface FileRoutesByTo {
   '/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
   '/dev': typeof With_headerAuthedDevIndexRoute
   '/profile': typeof With_headerAuthedProfileIndexRoute
-  '/dev/app/$id': typeof With_headerAuthedDevAppIdRoute
+  '/dev/app/$clientId': typeof With_headerAuthedDevAppClientIdRoute
   '/dev/apps/new': typeof With_headerAuthedDevAppsNewRoute
 }
 export interface FileRoutesById {
@@ -165,7 +156,6 @@ export interface FileRoutesById {
   '/_with_header/': typeof With_headerIndexRoute
   '/_with_header/_authed/dev': typeof With_headerAuthedDevRouteWithChildren
   '/_with_header/_authed/profile': typeof With_headerAuthedProfileRouteWithChildren
-  '/_with_header/staff/credentials': typeof With_headerStaffCredentialsRoute
   '/_with_header/staff/users': typeof With_headerStaffUsersRoute
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -173,7 +163,7 @@ export interface FileRoutesById {
   '/_with_header/_authed/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
   '/_with_header/_authed/dev/': typeof With_headerAuthedDevIndexRoute
   '/_with_header/_authed/profile/': typeof With_headerAuthedProfileIndexRoute
-  '/_with_header/_authed/dev/app/$id': typeof With_headerAuthedDevAppIdRoute
+  '/_with_header/_authed/dev/app/$clientId': typeof With_headerAuthedDevAppClientIdRoute
   '/_with_header/_authed/dev/apps/new': typeof With_headerAuthedDevAppsNewRoute
 }
 export interface FileRouteTypes {
@@ -184,7 +174,6 @@ export interface FileRouteTypes {
     | '/'
     | '/dev'
     | '/profile'
-    | '/staff/credentials'
     | '/staff/users'
     | '/api/admin/delete-user'
     | '/api/auth/$'
@@ -192,14 +181,13 @@ export interface FileRouteTypes {
     | '/profile/connected-apps'
     | '/dev/'
     | '/profile/'
-    | '/dev/app/$id'
+    | '/dev/app/$clientId'
     | '/dev/apps/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/consent'
     | '/login'
     | '/'
-    | '/staff/credentials'
     | '/staff/users'
     | '/api/admin/delete-user'
     | '/api/auth/$'
@@ -207,7 +195,7 @@ export interface FileRouteTypes {
     | '/profile/connected-apps'
     | '/dev'
     | '/profile'
-    | '/dev/app/$id'
+    | '/dev/app/$clientId'
     | '/dev/apps/new'
   id:
     | '__root__'
@@ -219,7 +207,6 @@ export interface FileRouteTypes {
     | '/_with_header/'
     | '/_with_header/_authed/dev'
     | '/_with_header/_authed/profile'
-    | '/_with_header/staff/credentials'
     | '/_with_header/staff/users'
     | '/api/admin/delete-user'
     | '/api/auth/$'
@@ -227,7 +214,7 @@ export interface FileRouteTypes {
     | '/_with_header/_authed/profile/connected-apps'
     | '/_with_header/_authed/dev/'
     | '/_with_header/_authed/profile/'
-    | '/_with_header/_authed/dev/app/$id'
+    | '/_with_header/_authed/dev/app/$clientId'
     | '/_with_header/_authed/dev/apps/new'
   fileRoutesById: FileRoutesById
 }
@@ -311,13 +298,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof With_headerStaffUsersRouteImport
       parentRoute: typeof With_headerRoute
     }
-    '/_with_header/staff/credentials': {
-      id: '/_with_header/staff/credentials'
-      path: '/staff/credentials'
-      fullPath: '/staff/credentials'
-      preLoaderRoute: typeof With_headerStaffCredentialsRouteImport
-      parentRoute: typeof With_headerRoute
-    }
     '/_with_header/_authed/profile': {
       id: '/_with_header/_authed/profile'
       path: '/profile'
@@ -360,11 +340,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof With_headerAuthedDevAppsNewRouteImport
       parentRoute: typeof With_headerAuthedDevRoute
     }
-    '/_with_header/_authed/dev/app/$id': {
-      id: '/_with_header/_authed/dev/app/$id'
-      path: '/app/$id'
-      fullPath: '/dev/app/$id'
-      preLoaderRoute: typeof With_headerAuthedDevAppIdRouteImport
+    '/_with_header/_authed/dev/app/$clientId': {
+      id: '/_with_header/_authed/dev/app/$clientId'
+      path: '/app/$clientId'
+      fullPath: '/dev/app/$clientId'
+      preLoaderRoute: typeof With_headerAuthedDevAppClientIdRouteImport
       parentRoute: typeof With_headerAuthedDevRoute
     }
   }
@@ -386,13 +366,13 @@ const AuthflowRouteWithChildren = AuthflowRoute._addFileChildren(
 
 interface With_headerAuthedDevRouteChildren {
   With_headerAuthedDevIndexRoute: typeof With_headerAuthedDevIndexRoute
-  With_headerAuthedDevAppIdRoute: typeof With_headerAuthedDevAppIdRoute
+  With_headerAuthedDevAppClientIdRoute: typeof With_headerAuthedDevAppClientIdRoute
   With_headerAuthedDevAppsNewRoute: typeof With_headerAuthedDevAppsNewRoute
 }
 
 const With_headerAuthedDevRouteChildren: With_headerAuthedDevRouteChildren = {
   With_headerAuthedDevIndexRoute: With_headerAuthedDevIndexRoute,
-  With_headerAuthedDevAppIdRoute: With_headerAuthedDevAppIdRoute,
+  With_headerAuthedDevAppClientIdRoute: With_headerAuthedDevAppClientIdRoute,
   With_headerAuthedDevAppsNewRoute: With_headerAuthedDevAppsNewRoute,
 }
 
@@ -432,14 +412,12 @@ const With_headerAuthedRouteWithChildren =
 interface With_headerRouteChildren {
   With_headerAuthedRoute: typeof With_headerAuthedRouteWithChildren
   With_headerIndexRoute: typeof With_headerIndexRoute
-  With_headerStaffCredentialsRoute: typeof With_headerStaffCredentialsRoute
   With_headerStaffUsersRoute: typeof With_headerStaffUsersRoute
 }
 
 const With_headerRouteChildren: With_headerRouteChildren = {
   With_headerAuthedRoute: With_headerAuthedRouteWithChildren,
   With_headerIndexRoute: With_headerIndexRoute,
-  With_headerStaffCredentialsRoute: With_headerStaffCredentialsRoute,
   With_headerStaffUsersRoute: With_headerStaffUsersRoute,
 }
 
