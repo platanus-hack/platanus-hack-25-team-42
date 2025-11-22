@@ -53,14 +53,19 @@ export const Route = createRootRouteWithContext<{
   shellComponent: RootDocument,
 });
 
+import { Header } from "@/components/Header";
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body>
-        {children}
+      <body className="bg-slate-900 min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1">
+          {children}
+        </main>
         <TanStackDevtools
           config={{
             position: "bottom-right",

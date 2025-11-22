@@ -98,43 +98,9 @@ function App() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const { data: session } = authClient.useSession();
-
   return (
     <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-4 py-8">
-        {/* User Session Info */}
-        <div className="flex justify-end mb-8">
-          {session ? (
-            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700 flex items-center gap-4">
-              {session.user.image && (
-                <img
-                  src={session.user.image}
-                  alt={session.user.name}
-                  className="w-10 h-10 rounded-full"
-                />
-              )}
-              <div>
-                <p className="text-white font-medium">{session.user.name}</p>
-                <p className="text-slate-400 text-sm">{session.user.email}</p>
-              </div>
-              <button
-                onClick={() => authClient.signOut()}
-                className="ml-4 px-3 py-1 bg-red-500/10 text-red-400 border border-red-500/20 rounded hover:bg-red-500/20 transition-colors text-sm"
-              >
-                Sign Out
-              </button>
-            </div>
-          ) : (
-            <a
-              href="/login"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-            >
-              Sign In
-            </a>
-          )}
-        </div>
-
         {/* OAuth2 Client Registration Form */}
         <div className="max-w-2xl mt-8">
           <h2 className="text-3xl font-bold text-white mb-6">

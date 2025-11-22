@@ -13,7 +13,9 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ConsentRouteImport } from './routes/consent'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DevAppsRouteImport } from './routes/dev/apps'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
+import { Route as ApiAdminDeleteUserRouteImport } from './routes/api/admin/delete-user'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -35,9 +37,19 @@ const DevAppsRoute = DevAppsRouteImport.update({
   path: '/dev/apps',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminDeleteUserRoute = ApiAdminDeleteUserRouteImport.update({
+  id: '/api/admin/delete-user',
+  path: '/api/admin/delete-user',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -45,14 +57,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
+  '/admin/users': typeof AdminUsersRoute
   '/dev/apps': typeof DevAppsRoute
+  '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
+  '/admin/users': typeof AdminUsersRoute
   '/dev/apps': typeof DevAppsRoute
+  '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
@@ -60,22 +76,48 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
+  '/admin/users': typeof AdminUsersRoute
   '/dev/apps': typeof DevAppsRoute
+  '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/consent' | '/login' | '/dev/apps' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/consent'
+    | '/login'
+    | '/admin/users'
+    | '/dev/apps'
+    | '/api/admin/delete-user'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/consent' | '/login' | '/dev/apps' | '/api/auth/$'
-  id: '__root__' | '/' | '/consent' | '/login' | '/dev/apps' | '/api/auth/$'
+  to:
+    | '/'
+    | '/consent'
+    | '/login'
+    | '/admin/users'
+    | '/dev/apps'
+    | '/api/admin/delete-user'
+    | '/api/auth/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/consent'
+    | '/login'
+    | '/admin/users'
+    | '/dev/apps'
+    | '/api/admin/delete-user'
+    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ConsentRoute: typeof ConsentRoute
   LoginRoute: typeof LoginRoute
+  AdminUsersRoute: typeof AdminUsersRoute
   DevAppsRoute: typeof DevAppsRoute
+  ApiAdminDeleteUserRoute: typeof ApiAdminDeleteUserRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -109,11 +151,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevAppsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/delete-user': {
+      id: '/api/admin/delete-user'
+      path: '/api/admin/delete-user'
+      fullPath: '/api/admin/delete-user'
+      preLoaderRoute: typeof ApiAdminDeleteUserRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -123,7 +179,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ConsentRoute: ConsentRoute,
   LoginRoute: LoginRoute,
+  AdminUsersRoute: AdminUsersRoute,
   DevAppsRoute: DevAppsRoute,
+  ApiAdminDeleteUserRoute: ApiAdminDeleteUserRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
