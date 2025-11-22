@@ -13,4 +13,35 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: "YJAbvqkDLRGFaOGssVEVJNvEbKHkDlEb", // from the provider's dashboard
     },
   ],
+  callbacks: {
+    async jwt({ token, profile }) {
+      const enrichedToken = token as typeof token & {
+        info?: Record<string, unknown>;
+      };
+
+      if (profile && typeof profile === "object" && "info" in profile) {
+        enrichedToken.info = (profile as Record<string, unknown>).info as
+          | Record<string, unknown>
+          | undefined;
+      }
+
+      return enrichedToken;
+    },
+    async session({ session, token }) {
+      const enrichedToken = token as typeof token & {
+        info?: Record<string, unknown>;
+      };
+
+      return {
+        ...session,
+        info: enrichedToken.info,
+      };
+    },
+  },
 });
+
+declare module "next-auth" {
+  interface Session {
+    info?: Record<string, unknown>;
+  }
+}

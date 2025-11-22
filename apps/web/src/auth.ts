@@ -6,6 +6,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "./db";
 
 export const auth = betterAuth({
+  baseURL: "http://localhost:3000",
   database: drizzleAdapter(db, {
     provider: "pg", // or "mysql", "sqlite"
   }),
@@ -14,6 +15,17 @@ export const auth = betterAuth({
       loginPage: "/login",
       consentPage: "/consent",
       allowDynamicClientRegistration: true,
+      getAdditionalUserInfoClaim: (_user, _scopes, _client) => {
+        // TODO: complete
+        const claims: Record<string, any> = {};
+        claims["iss"] = "http://localhost:3000/api/auth";
+
+        claims["info"] = {
+          rut: "1234567-8",
+        };
+
+        return claims;
+      },
       metadata: {
         issuer: "http://localhost:3000/api/auth",
       },
