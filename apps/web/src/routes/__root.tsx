@@ -6,8 +6,9 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createServerFn } from "@tanstack/react-start";
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, queryOptions } from "@tanstack/react-query";
 import appCss from "../styles.css?url";
+import { Header } from "@/components/Header";
 
 const fetchAuth = createServerFn({ method: "GET" }).handler(
   async ({ context }) => context.getSession()
@@ -36,16 +37,17 @@ export const Route = createRootRouteWithContext<{
       },
     ],
   }),
-  beforeLoad: async () => {
-    const session = await fetchAuth();
-    return {
-      session,
-    };
+  beforeLoad: async ({ context }) => {
+    const { queryClient } = context;
+    const sessionQuery = queryOptions({
+      queryKey: ["session"],
+      queryFn: fetchAuth,
+    });
+    const session = await queryClient.ensureQueryData(sessionQuery);
+    return { session };
   },
   shellComponent: RootDocument,
 });
-
-import { Header } from "@/components/Header";
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
@@ -55,9 +57,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-slate-900 min-h-screen flex flex-col">
         <Header />
-        <main className="flex-1">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
         <TanStackDevtools
           config={{
             position: "bottom-right",
