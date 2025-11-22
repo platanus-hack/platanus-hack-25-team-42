@@ -10,6 +10,7 @@ erDiagram
         string client_id
         string client_secret
         string redirect_uri
+        string scope
         datetime created_at
         datetime updated_at
     }
