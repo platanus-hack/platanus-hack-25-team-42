@@ -8,6 +8,9 @@ import { db } from "@/db";
 import { oauthApplication } from "@/db/schema.auth";
 import { eq } from "drizzle-orm";
 import { getUserData } from "@/db/crud/user_data";
+import { MissingDataModal } from "@/components/auth/MissingDataModal";
+import { scopeTranslations } from "@/utils/translations";
+import { Avatar } from "@base-ui-components/react/avatar";
 
 const getConsentData = createServerFn({
   method: "GET",
@@ -52,8 +55,6 @@ const getConsentData = createServerFn({
     };
   });
 
-import { MissingDataModal } from "@/components/auth/MissingDataModal";
-
 export const Route = createFileRoute("/_authflow/consent")({
   validateSearch: z.object({
     client_id: z.string(),
@@ -72,11 +73,17 @@ export const Route = createFileRoute("/_authflow/consent")({
   component: ConsentPage,
 });
 
-import { scopeTranslations } from "@/utils/translations";
-
 function ConsentPage() {
   const [error, setError] = useState<string | null>(null);
-  const { currentData, requiredScopes, userId, userEmail, appName, appIcon, redirectUrl } = Route.useLoaderData();
+  const {
+    currentData,
+    requiredScopes,
+    userId,
+    userEmail,
+    appName,
+    appIcon,
+    redirectUrl,
+  } = Route.useLoaderData();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Check if all required scopes have corresponding data
@@ -99,7 +106,9 @@ function ConsentPage() {
         // This might happen if the consent flow doesn't immediately redirect
         window.location.href = redirectUrl;
       } else {
-        setError("No se pudo redirigir a la aplicación. Por favor intente nuevamente.");
+        setError(
+          "No se pudo redirigir a la aplicación. Por favor intente nuevamente."
+        );
       }
     },
     onError: (err) => {
@@ -110,46 +119,39 @@ function ConsentPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+      <div className="max-w-md w-full space-y-4 bg-white p-8 rounded-lg shadow-sm border border-gray-200">
         <div className="text-center">
-          <div className="mx-auto h-20 w-20 flex items-center justify-center">
-            {appIcon ? (
-              <img
-                src={appIcon}
-                alt={appName || "Application"}
-                className="h-20 w-20 rounded-xl object-cover shadow-md"
-              />
-            ) : (
-              <div className="h-20 w-20 bg-indigo-100 rounded-xl flex items-center justify-center">
-                <svg
-                  className="h-10 w-10 text-indigo-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-            )}
+          <div className="mx-auto flex items-center justify-center">
+            <Avatar.Root className="w-16 h-16 rounded-lg border border-gray-200 shadow-md overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+              {appIcon && (
+                <Avatar.Image
+                  src={appIcon}
+                  alt={appName || "Application"}
+                  className="w-full h-full object-cover"
+                  width="64"
+                  height="64"
+                />
+              )}
+              <Avatar.Fallback className="w-full h-full flex items-center justify-center text-2xl font-bold text-gray-500">
+                {(appName || "A").charAt(0).toUpperCase()}
+              </Avatar.Fallback>
+            </Avatar.Root>
           </div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Iniciar sesión con {appName || "MyApp"}
+            Accede a {appName || "MyApp"}
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            {appName || "MyApp"} quiere acceder a su cuenta
+          <p className="text-sm text-gray-600">
+            {appName || "MyApp"} quiere acceder a su información
           </p>
-
         </div>
 
         {isModalOpen && (
           <MissingDataModal
             scopes={requiredScopes.filter(
-              (scope: string) => !currentData.some((data: { type: string }) => data.type === scope)
+              (scope: string) =>
+                !currentData.some(
+                  (data: { type: string }) => data.type === scope
+                )
             )}
             userId={userId}
             isOpen={isModalOpen}
@@ -160,9 +162,11 @@ function ConsentPage() {
         <div className="py-4">
           <div className="flex flex-col space-y-4 p-4 bg-gray-50 rounded-md">
             <div className="flex items-center justify-center space-x-4">
-              <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                {userEmail.charAt(0).toUpperCase()}
-              </div>
+              <Avatar.Root className="h-10 w-10 rounded-full border border-gray-200 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                <Avatar.Fallback className="w-full h-full flex items-center justify-center text-sm font-bold text-gray-500">
+                  {userEmail.charAt(0).toUpperCase()}
+                </Avatar.Fallback>
+              </Avatar.Root>
               <div className="text-sm">
                 <p className="font-medium text-gray-900">{userEmail}</p>
                 <p className="text-gray-500">Cuenta Personal</p>
@@ -177,51 +181,59 @@ function ConsentPage() {
                       La siguiente información será compartida:
                     </h3>
                     <ul className="mt-2 text-sm text-gray-600 list-disc list-inside">
-                      {currentData.map((data: { id: string; type: string; value: string }) => (
-                        <li key={data.id} className="flex items-center gap-2">
-                          <span className="text-green-500">✓</span>
-                          {scopeTranslations[data.type] || data.type}: {data.value}
-                        </li>
-                      ))}
+                      {currentData.map(
+                        (data: { id: string; type: string; value: string }) => (
+                          <li key={data.id} className="flex items-center gap-2">
+                            <span className="text-green-500">✓</span>
+                            {scopeTranslations[data.type] || data.type}:{" "}
+                            {data.value}
+                          </li>
+                        )
+                      )}
                     </ul>
                   </>
                 )}
 
                 {requiredScopes.filter(
-                  (scope: string) => !currentData.some((data: { type: string }) => data.type === scope)
+                  (scope: string) =>
+                    !currentData.some(
+                      (data: { type: string }) => data.type === scope
+                    )
                 ).length > 0 && (
-                    <>
-                      <h3 className="mt-4 text-sm font-medium text-red-600">
-                        La siguiente información es requerida:
-                      </h3>
-                      <ul className="mt-2 text-sm text-red-500 list-disc list-inside">
-                        {requiredScopes
-                          .filter(
-                            (scope: string) =>
-                              !currentData.some((data: { type: string }) => data.type === scope)
-                          )
-                          .map((scope: string) => (
-                            <li key={scope} className="flex items-center gap-2">
-                              <span>⚠️</span>
-                              {scopeTranslations[scope] || scope}
-                            </li>
-                          ))}
-                      </ul>
-                      <button
-                        onClick={() => setIsModalOpen(true)}
-                        className="mt-4 w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
-                      >
-                        Agregar información faltante
-                      </button>
-                    </>
-                  )}
+                  <>
+                    <h3 className="mt-4 text-sm font-medium text-red-600">
+                      La siguiente información es requerida:
+                    </h3>
+                    <ul className="mt-2 text-sm text-red-500 list-disc list-inside">
+                      {requiredScopes
+                        .filter(
+                          (scope: string) =>
+                            !currentData.some(
+                              (data: { type: string }) => data.type === scope
+                            )
+                        )
+                        .map((scope: string) => (
+                          <li key={scope} className="flex items-center gap-2">
+                            <span>⚠️</span>
+                            {scopeTranslations[scope] || scope}
+                          </li>
+                        ))}
+                    </ul>
+                    <button
+                      onClick={() => setIsModalOpen(true)}
+                      className="mt-4 w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                    >
+                      Agregar información faltante
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded text-sm">
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded">
             {error}
           </div>
         )}
@@ -245,8 +257,12 @@ function ConsentPage() {
           <button
             onClick={() => consentMutation.mutate(true)}
             disabled={consentMutation.isPending || !hasAllRequiredData}
-            title={!hasAllRequiredData ? "Please add all required information before proceeding" : ""}
-            className="w-full sm:w-auto px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            title={
+              !hasAllRequiredData
+                ? "Please add all required information before proceeding"
+                : ""
+            }
+            className="w-full sm:w-auto px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {consentMutation.isPending ? "Procesando..." : "Permitir"}
           </button>
