@@ -1,8 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { Session } from "next-auth";
+import React from "react";
+
+// Extender la interfaz User para incluir la propiedad info
+declare module "next-auth" {
+  interface User {
+    info?: {
+      rut?: string;
+      phone?: string;
+      region?: string;
+      commune?: string;
+      [key: string]: any;
+    };
+  }
+}
 import { BanmedicaButton } from "../components/BanmedicaButton";
 
 function NavbarLink(props: React.ComponentProps<typeof Link>) {
@@ -32,6 +47,7 @@ function NavbarLinks() {
 }
 
 function ContactForm() {
+  const { data: session } = useSession();
   const [region, setRegion] = useState("");
   const [comuna, setComuna] = useState("");
   const [nombre, setNombre] = useState("");
@@ -39,18 +55,110 @@ function ContactForm() {
   const [email, setEmail] = useState("");
   const [celular, setCelular] = useState("");
   const [info, setInfo] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false); // Estado para controlar si el formulario ha sido enviado
+
+  // Efecto para cargar los datos del usuario cuando la sesión esté disponible
+  useEffect(() => {
+    // Depuración: mostrar los datos de la sesión en la consola
+    console.log("Datos de sesión:", session);
+    
+    if (session?.user) {
+      // Obtener el nombre del usuario de la sesión
+      if (session.user.name) {
+        setNombre(session.user.name);
+      }
+      
+      // Obtener el email del usuario de la sesión
+      if (session.user.email) {
+        setEmail(session.user.email);
+      }
+      
+      // Buscar la información adicional del usuario en diferentes ubicaciones posibles
+      const userInfo = session.user.info || 
+                       (session as any).info || 
+                       (session as any).user?.info || 
+                       {};
+      
+      console.log("Información del usuario:", userInfo);
+      
+      // Obtener el RUT si está disponible
+      if (userInfo.rut) {
+        setRut(userInfo.rut);
+      }
+      
+      // Obtener el teléfono si está disponible
+      if (userInfo.phone) {
+        setCelular(userInfo.phone);
+      }
+      
+      // Obtener la región si está disponible
+      if (userInfo.region) {
+        setRegion(userInfo.region);
+      }
+      
+      // Obtener la comuna si está disponible
+      if (userInfo.commune) {
+        setComuna(userInfo.commune);
+      }
+
+      // Obtener la información adicional si está disponible
+      if (userInfo.profession) {
+        setInfo(userInfo.profession);
+      }
+    }
+  }, [session]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Formulario enviado con éxito");
+    // Actualizar el estado para mostrar el mensaje de confirmación
+    setFormSubmitted(true);
+    // Opcional: Aquí se podría agregar la lógica para enviar los datos a un servidor
   };
 
+  // Si el formulario ha sido enviado, mostrar la vista de agradecimiento
+  if (formSubmitted) {
+    return (
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
+        {/* Círculo verde con check grande */}
+        <div className="mx-auto w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        
+        {/* Mensaje de agradecimiento */}
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">¡Gracias por tu interés!</h2>
+        <p className="text-gray-600 mb-8 text-lg">
+          Hemos recibido tus datos correctamente.<br />
+          Un ejecutivo de Banmédica se pondrá en contacto contigo a la brevedad.
+        </p>
+        
+        {/* Botón para volver al inicio */}
+        <button 
+          onClick={() => setFormSubmitted(false)}
+          className="px-6 py-3 bg-[#E30613] text-white rounded-md hover:bg-[#c00510] transition-colors font-medium"
+        >
+          Volver al formulario
+        </button>
+      </div>
+    );
+  }
+
+  // Si el formulario no ha sido enviado, mostrar el formulario
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
       <div className="">
-        <p className="text-gray-800 text-base">
-          Si aún no eres parte de Banmédica, ingresa tus datos y nos comunicaremos contigo.
-        </p>
+        {session?.user ? (
+          <div className="mb-4 p-2 bg-green-50 border border-green-200 rounded-md">
+            <p className="text-green-700 text-sm">
+              <span className="font-medium">¡Hola {session.user.name}!</span> Tus datos han sido cargados automáticamente.
+            </p>
+          </div>
+        ) : (
+          <p className="text-gray-800 text-base">
+            Si aún no eres parte de Banmédica, ingresa tus datos y nos comunicaremos contigo.
+          </p>
+        )}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-2">
@@ -139,14 +247,19 @@ function ContactForm() {
         
         <div className="pt-4">
           <button
-            type="submit"
+            type="button"
             onClick={(e) => {
               e.preventDefault();
-              signIn("my-provider");
+              if (!session) {
+                signIn("my-provider");
+              } else {
+                // Mostrar directamente la vista de agradecimiento
+                setFormSubmitted(true);
+              }
             }}
             className="w-full bg-[#E30613] text-white py-3 px-4 rounded-md hover:bg-[#c00510] transition-colors font-medium"
           >
-            Cámbiate a Isapre Banmédica
+            {session ? "Enviar solicitud" : "Cámbiate a Isapre Banmédica"}
           </button>
         </div>
       </form>

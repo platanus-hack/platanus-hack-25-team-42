@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ReactTyped } from "react-typed";
 import { FintualLogoWithText } from "../components/FintualLogos";
 import { FintualistSVG } from "../components/FintualistSVG";
-import { FintualBtn } from "../components/FintualBtn";
 
 function NavbarLink(props: React.ComponentProps<typeof Link>) {
   return <Link className="text-sm font-medium text-[#757575]" {...props} />;

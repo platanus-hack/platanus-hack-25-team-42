@@ -8,6 +8,8 @@ export const userDataTypeList = [
   "nationality",
   "marital_status",
   "address",
+  "region",
+  "commune",
   "gender",
   "profession",
   "income",

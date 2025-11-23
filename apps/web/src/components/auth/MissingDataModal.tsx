@@ -9,7 +9,6 @@ import {
     DialogDescription,
     DialogFooter,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { userDataTypeList } from "@/db/data_types";
 import { useRouter } from "@tanstack/react-router";
@@ -92,16 +91,27 @@ export function MissingDataModal({
                         </div>
                     ))}
                 </div>
-                <DialogFooter>
-                    <Button variant="outline" onClick={onClose}>
-                        Cancel
-                    </Button>
-                    <Button
+                <DialogFooter className="flex gap-2 justify-end mt-4">
+                    <button 
+                        onClick={onClose}
+                        className="px-5 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                        Cancelar
+                    </button>
+                    <button
                         onClick={() => mutation.mutate()}
                         disabled={mutation.isPending || !allFieldsFilled}
+                        className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white"
                     >
-                        {mutation.isPending ? "Saving..." : "Save All"}
-                    </Button>
+                        {mutation.isPending ? (
+                            <>
+                                <span className="animate-pulse mr-2">⏳</span>
+                                Guardando...
+                            </>
+                        ) : (
+                            "Guardar"
+                        )}
+                    </button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
