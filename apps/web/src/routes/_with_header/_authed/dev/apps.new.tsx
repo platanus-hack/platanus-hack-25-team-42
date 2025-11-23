@@ -35,13 +35,16 @@ function RouteComponent() {
         client_uri: websiteUrl,
         redirect_uris: [redirectUrl],
         scope: fields.join(" "),
+        metadata: {
+          scopes: fields,
+        },
       });
 
       if (error) throw new Error(error.message);
       return responseData;
     },
     onSuccess: ({ client_id }) => {
-      navigate({ to: "/dev/app/$id", params: { id: client_id } });
+      navigate({ to: "/dev/app/$clientId", params: { clientId: client_id } });
     },
   });
 

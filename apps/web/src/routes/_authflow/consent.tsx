@@ -2,13 +2,73 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { authClient } from "@/integrations/auth/client";
 import { useState } from "react";
+import z from "zod";
+import { createServerFn } from "@tanstack/react-start";
+import { db } from "@/db";
+import { oauthApplication } from "@/db/schema.auth";
+import { eq } from "drizzle-orm";
+import {
+  getLastValidatedUserDataByTypeList,
+  getUserData,
+} from "@/db/crud/user_data";
+
+const getConsentData = createServerFn({
+  method: "GET",
+})
+  .inputValidator(
+    z.object({
+      clientId: z.string(),
+    })
+  )
+  .handler(async ({ context, data }) => {
+    const session = await context.getSession();
+    if (!session) throw new Error("User not authenticated");
+
+    const app = await db
+      .select()
+      .from(oauthApplication)
+      .where(eq(oauthApplication.clientId, data.clientId));
+
+    console.log(data.clientId, app);
+    if (!app[0]) throw new Error("App not found");
+
+    const metadata = JSON.parse(app[0].metadata || "{}") as {
+      scopes: string[];
+    };
+
+    const requiredScopes = metadata.scopes;
+    const currentData = await getUserData({
+      data: { userId: session.user.id },
+    });
+    const currentDataByType = currentData.filter((data) =>
+      requiredScopes.includes(data.type)
+    );
+
+    return {
+      requiredScopes,
+      currentData: currentDataByType,
+    };
+  });
 
 export const Route = createFileRoute("/_authflow/consent")({
+  validateSearch: z.object({
+    client_id: z.string(),
+  }),
+  loaderDeps: ({ search }) => ({ search }),
+  loader: async ({ deps: { search } }) => {
+    const consentData = await getConsentData({
+      data: { clientId: search.client_id },
+    });
+    return {
+      ...consentData,
+    };
+  },
   component: ConsentPage,
 });
 
 function ConsentPage() {
   const [error, setError] = useState<string | null>(null);
+  const { currentData, requiredScopes } = Route.useLoaderData();
 
   const consentMutation = useMutation({
     mutationFn: async (accept: boolean) => {
@@ -25,6 +85,7 @@ function ConsentPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-sm border border-gray-200">
         <div className="text-center">
+          {JSON.stringify(requiredScopes)}
           <div className="mx-auto h-12 w-12 bg-indigo-100 rounded-full flex items-center justify-center">
             <svg
               className="h-6 w-6 text-indigo-600"

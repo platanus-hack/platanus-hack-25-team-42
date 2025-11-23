@@ -9,8 +9,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       issuer: "http://localhost:3000/api/auth",
       // wellKnown:
       //   "http://localhost:3000/api/auth/.well-known/openid-configuration",
-      clientId: "pzRiTEoLwNiUZKwErRehekKJdHSUySlC", // from the provider's dashboard
-      clientSecret: "YJAbvqkDLRGFaOGssVEVJNvEbKHkDlEb", // from the provider's dashboard
+      clientId: process.env.CLIENT_ID!,
+      clientSecret: process.env.CLIENT_SECRET!,
     },
   ],
   callbacks: {
