@@ -1,6 +1,8 @@
 # team-42 Platanus Hack Project
 
-<img src="./project-logo.png" alt="Project Logo" width="200" />
+<p align="center">
+  <img src="./project-logo.png" alt="Project Logo" width="200" />
+</p>
 
 Submission Deadline: 23rd Nov, 9:00 AM, Chile time.
 
@@ -13,13 +15,6 @@ team-42
 - Ignacio Muñoz Repetto ([@itmunoz](https://github.com/itmunoz))
 - Diego Costa ([@diegocostares](https://github.com/diegocostares))
 - Benjamín Vicente ([@benjavicente](https://github.com/benjavicente))
-
-Antes de enviar:
-
-- ✅ Define un nombre y una descripción para el proyecto en platanus-hack-project.json
-
-- ✅ Proporciona un logotipo del proyecto en formato PNG de 1000x1000 y un máximo de 500 kB
-
 
 ## Resumen
 
@@ -34,6 +29,3 @@ Además, la solución incluye verificación de datos críticos: validar que los 
 La plataforma actúa, en cierto sentido, como un Identity/Data Provider o como un intermediario que reduce la fricción para los usuarios y ahorra duplicación para las empresas/organizaciones que recopilan esos datos repetidamente.
 
 La propuesta de valor es tanto para el usuario (menos formularios, menos cargas) como para la organización (datos más confiables, menor error, menor carga de proceso).
-
-
-

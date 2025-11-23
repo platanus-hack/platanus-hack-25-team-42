@@ -1,4 +1,4 @@
 {
-  "project-name": "<FILL THIS>",
-  "project-description-spanish": "<FILL THIS>"
+  "project-name": "GoBoard",
+  "project-description-spanish": "Una plataforma de onboarding de datos reutilizables, donde el usuario completa una vez sus datos básicos (correo, tel., dirección, estado civil, documentos, etc.). Goboard es una Capa de Abstracción y Seguridad que permite a las aplicaciones legacy implementar un Inicio de Sesión Único (SSO) a través del estándar OAuth 2.0."
 }
