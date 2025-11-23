@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { BanmedicaButton } from "../components/BanmedicaButton";
 
 function NavbarLink(props: React.ComponentProps<typeof Link>) {
@@ -9,6 +10,8 @@ function NavbarLink(props: React.ComponentProps<typeof Link>) {
 }
 
 function NavbarLinks() {
+  const { data: session } = useSession();
+  
   return (
     <div className="flex h-full items-center gap-8">
       <NavbarLink href="/">Inicio</NavbarLink>
@@ -16,8 +19,14 @@ function NavbarLinks() {
       <NavbarLink href="/">Sucursales</NavbarLink>
       <NavbarLink href="/">Beneficios</NavbarLink>
       <NavbarLink href="/">Contacto</NavbarLink>
-      <BanmedicaButton>Iniciar Sesión</BanmedicaButton>
-      <BanmedicaButton primary>Hazte Cliente</BanmedicaButton>
+      {session ? (
+        <BanmedicaButton onClick={() => signOut()}>Cerrar Sesión</BanmedicaButton>
+      ) : (
+        <>
+          <BanmedicaButton onClick={() => signIn("my-provider")}>Iniciar Sesión</BanmedicaButton>
+          <BanmedicaButton primary onClick={() => signIn("my-provider")}>Hazte Cliente</BanmedicaButton>
+        </>
+      )}
     </div>
   );
 }
@@ -131,6 +140,10 @@ function ContactForm() {
         <div className="pt-4">
           <button
             type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              signIn("my-provider");
+            }}
             className="w-full bg-[#E30613] text-white py-3 px-4 rounded-md hover:bg-[#c00510] transition-colors font-medium"
           >
             Cámbiate a Isapre Banmédica
@@ -142,6 +155,7 @@ function ContactForm() {
 }
 
 export default function Home() {
+  const { data: session } = useSession();
   return (
     <>
       <header className="mx-auto box-content flex h-[80px] max-w-screen-xl flex-row items-center justify-between bg-white px-20 shadow-border-b">
@@ -178,10 +192,10 @@ export default function Home() {
                   La mejor cobertura de salud para ti y tu familia con los mejores beneficios.
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <BanmedicaButton primary>
+                  <BanmedicaButton primary onClick={() => signIn("my-provider")}>
                     Conoce Nuestros Planes
                   </BanmedicaButton>
-                  <BanmedicaButton>
+                  <BanmedicaButton onClick={() => signIn("my-provider")}>
                     Sucursales
                   </BanmedicaButton>
                 </div>
@@ -201,8 +215,7 @@ export default function Home() {
         <div className="container mx-auto px-6 md:px-20">
           <div className="flex flex-col md:flex-row justify-between">
             <div className="mb-6 md:mb-0">
-              <img src="https://www.tuplanbanmedica.cl/wp-content/uploads/2019/08/logo-banmedica.png" alt="Logo Banmédica" className="h-10" />
-
+              <img src="https://www.tuplanbanmedica.cl/wp-content/uploads/2019/08/logo-banmedica.png" alt="Logo Banmédica" className="h-10 mb-4" />
               <p className="text-gray-400 max-w-xs">
                 Isapre Banmédica, cuidando la salud de los chilenos desde 1990.
               </p>

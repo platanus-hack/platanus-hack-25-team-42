@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { classNames } from "../helpers/classNames";
+import { SessionProvider } from "next-auth/react";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -27,7 +28,9 @@ export default function RootLayout({
           "font-sans antialiased"
         )}
       >
-        {children}
+        <SessionProvider>
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
