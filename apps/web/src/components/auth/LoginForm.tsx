@@ -8,15 +8,16 @@ import { getOAuthApplicationByClientId } from "@/db/crud/oauth_application";
 export function LoginForm() {
   const data = useSearch({ from: "/_authflow/login" });
   const navigate = useNavigate();
-  
+
   // Get client_id from URL params
   const searchParams = new URLSearchParams(window.location.search);
-  const clientId = searchParams.get('client_id');
-  
+  const clientId = searchParams.get("client_id");
+
   // Fetch OAuth application info
   const { data: oauthApp } = useQuery({
-    queryKey: ['oauth-app', clientId],
-    queryFn: () => clientId ? getOAuthApplicationByClientId({ data: { clientId } }) : null,
+    queryKey: ["oauth-app", clientId],
+    queryFn: () =>
+      clientId ? getOAuthApplicationByClientId({ data: { clientId } }) : null,
     enabled: !!clientId,
   });
 
@@ -41,7 +42,7 @@ export function LoginForm() {
       return result.data;
     },
     onSuccess: () => {
-      navigate({ to: data.redirect || '/' });
+      navigate({ to: data.redirect || "/" });
     },
   });
 
@@ -64,7 +65,7 @@ export function LoginForm() {
   const handlePasskeyLogin = async () => {
     const result = await authClient.signIn.passkey();
     if (result.data && !result.error) {
-      navigate({ to: data.redirect || '/' });
+      navigate({ to: data.redirect || "/" });
     }
   };
 
@@ -84,23 +85,37 @@ export function LoginForm() {
         {oauthApp && (
           <div className="flex flex-col items-center space-y-3 border border-gray-200/50 p-4 rounded-lg bg-white">
             {oauthApp.icon && (
-              <img 
-                src={oauthApp.icon} 
-                alt={oauthApp.name || 'Application'} 
+              <img
+                src={oauthApp.icon}
+                alt={oauthApp.name || "Application"}
                 className="w-16 h-16 rounded-lg shadow-md object-cover"
               />
             )}
             <div className="text-center">
               <p className="text-sm text-gray-600">Sign in to</p>
-              <h3 className="text-xl font-bold text-gray-900">{oauthApp.name}</h3>
+              <h3 className="text-xl font-bold text-gray-900">
+                {oauthApp.name}
+              </h3>
             </div>
           </div>
         )}
-        
+
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            {step === "email"
+              ? "Iniciar sesión con OTP"
+              : "Ingrese código de verificación"}
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            {step === "email"
+              ? "Ingrese su correo electrónico para recibir una contraseña de un solo uso"
+              : "Revise su consola para el código OTP"}
+          </p>
+        </div>
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded">
-            {error instanceof Error ? error.message : "An error occurred"}
+            {error instanceof Error ? error.message : "Ocurrió un error"}
           </div>
         )}
 
@@ -110,7 +125,7 @@ export function LoginForm() {
             <div className="mt-8 space-y-3">
               <SocialLoginButton
                 provider="google"
-                label="Continue with Google"
+                label="Continuar con Google"
                 icon={
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
@@ -135,7 +150,7 @@ export function LoginForm() {
 
               <SocialLoginButton
                 provider="passkey"
-                label="Sign in with Passkey"
+                label="Iniciar sesión con Passkey"
                 onClick={handlePasskeyLogin}
                 icon={
                   <svg
@@ -162,7 +177,7 @@ export function LoginForm() {
                 </div>
                 <div className="relative flex justify-center text-sm">
                   <span className="px-2 bg-gray-50 text-gray-500">
-                    Or continue with email
+                    O continuar con correo electrónico
                   </span>
                 </div>
               </div>
@@ -171,7 +186,7 @@ export function LoginForm() {
             <form className="mt-6 space-y-6" onSubmit={handleSendOTP}>
               <div>
                 <label htmlFor="email" className="sr-only">
-                  Email address
+                  Correo electrónico
                 </label>
                 <input
                   id="email"
@@ -181,7 +196,7 @@ export function LoginForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-white"
-                  placeholder="Email address"
+                  placeholder="Correo electrónico"
                   disabled={isLoading}
                 />
               </div>
@@ -190,9 +205,9 @@ export function LoginForm() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? "Sending..." : "Send OTP"}
+                  {isLoading ? "Enviando..." : "Enviar OTP"}
                 </button>
               </div>
             </form>
@@ -201,7 +216,7 @@ export function LoginForm() {
           <form className="mt-8 space-y-6" onSubmit={handleVerifyOTP}>
             <div>
               <label htmlFor="otp" className="sr-only">
-                OTP Code
+                Código OTP
               </label>
               <input
                 id="otp"
@@ -211,7 +226,7 @@ export function LoginForm() {
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Enter 6-digit code"
+                placeholder="Ingrese código de 6 dígitos"
                 maxLength={6}
                 disabled={isLoading}
               />
@@ -222,16 +237,16 @@ export function LoginForm() {
                 type="button"
                 onClick={goBack}
                 disabled={isLoading}
-                className="flex-1 py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-2 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Back
+                Volver
               </button>
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex-1 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? "Verifying..." : "Verify & Login"}
+                {isLoading ? "Verificando..." : "Verificar e Iniciar Sesión"}
               </button>
             </div>
           </form>

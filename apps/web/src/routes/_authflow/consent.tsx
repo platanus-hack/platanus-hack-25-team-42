@@ -7,10 +7,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { db } from "@/db";
 import { oauthApplication } from "@/db/schema.auth";
 import { eq } from "drizzle-orm";
-import {
-  getLastValidatedUserDataByTypeList,
-  getUserData,
-} from "@/db/crud/user_data";
+import { getUserData } from "@/db/crud/user_data";
 
 const getConsentData = createServerFn({
   method: "GET",
@@ -77,7 +74,7 @@ function ConsentPage() {
       });
     },
     onError: (err) => {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      setError(err instanceof Error ? err.message : "Ocurrió un error");
     },
   });
 
@@ -85,7 +82,7 @@ function ConsentPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-sm border border-gray-200">
         <div className="text-center">
-          {JSON.stringify(requiredScopes)}
+          {JSON.stringify(requiredScopes)} {JSON.stringify(currentData)}
           <div className="mx-auto h-12 w-12 bg-indigo-100 rounded-full flex items-center justify-center">
             <svg
               className="h-6 w-6 text-indigo-600"
@@ -102,10 +99,10 @@ function ConsentPage() {
             </svg>
           </div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Sign in with MyApp
+            Iniciar sesión con MyApp
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            MyApp wants to access your account
+            MyApp quiere acceder a su cuenta
           </p>
         </div>
 
@@ -116,7 +113,7 @@ function ConsentPage() {
             </div>
             <div className="text-sm">
               <p className="font-medium text-gray-900">user@example.com</p>
-              <p className="text-gray-500">Personal Account</p>
+              <p className="text-gray-500">Cuenta Personal</p>
             </div>
           </div>
         </div>
@@ -129,9 +126,9 @@ function ConsentPage() {
 
         <div className="space-y-4">
           <p className="text-sm text-gray-500 text-center">
-            By clicking Allow, you allow this app and Google to use your
-            information in accordance with their respective terms of service and
-            privacy policies.
+            Al hacer clic en Permitir, permite que esta aplicación y Google usen
+            su información de acuerdo con sus respectivos términos de servicio y
+            políticas de privacidad.
           </p>
         </div>
 
@@ -139,16 +136,16 @@ function ConsentPage() {
           <button
             onClick={() => consentMutation.mutate(false)}
             disabled={consentMutation.isPending}
-            className="w-full sm:w-auto px-6 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-6 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Deny
+            Denegar
           </button>
           <button
             onClick={() => consentMutation.mutate(true)}
             disabled={consentMutation.isPending}
-            className="w-full sm:w-auto px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {consentMutation.isPending ? "Processing..." : "Allow"}
+            {consentMutation.isPending ? "Procesando..." : "Permitir"}
           </button>
         </div>
       </div>
