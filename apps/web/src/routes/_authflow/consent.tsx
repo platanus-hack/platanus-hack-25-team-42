@@ -46,6 +46,8 @@ const getConsentData = createServerFn({
       currentData: currentDataByType,
       userId: session.user.id,
       userEmail: session.user.email,
+      appName: app[0].name,
+      appIcon: app[0].icon,
     };
   });
 
@@ -73,7 +75,7 @@ import { scopeTranslations } from "@/utils/translations";
 
 function ConsentPage() {
   const [error, setError] = useState<string | null>(null);
-  const { currentData, requiredScopes, userId, userEmail } = Route.useLoaderData();
+  const { currentData, requiredScopes, userId, userEmail, appName, appIcon } = Route.useLoaderData();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Check if all required scopes have corresponding data
@@ -96,70 +98,38 @@ function ConsentPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-sm border border-gray-200">
         <div className="text-center">
-          <div className="mx-auto h-12 w-12 bg-indigo-100 rounded-full flex items-center justify-center">
-            <svg
-              className="h-6 w-6 text-indigo-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          <div className="mx-auto h-20 w-20 flex items-center justify-center">
+            {appIcon ? (
+              <img
+                src={appIcon}
+                alt={appName || "Application"}
+                className="h-20 w-20 rounded-xl object-cover shadow-md"
               />
-            </svg>
+            ) : (
+              <div className="h-20 w-20 bg-indigo-100 rounded-xl flex items-center justify-center">
+                <svg
+                  className="h-10 w-10 text-indigo-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+            )}
           </div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Iniciar sesión con MyApp
+            Iniciar sesión con {appName || "MyApp"}
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            MyApp quiere acceder a su cuenta
+            {appName || "MyApp"} quiere acceder a su cuenta
           </p>
 
-          <div className="mt-4 text-left">
-            <h3 className="text-sm font-medium text-gray-900">
-              La siguiente información será compartida:
-            </h3>
-            <ul className="mt-2 text-sm text-gray-600 list-disc list-inside">
-              {currentData.map((data: { id: string; type: string; value: string }) => (
-                <li key={data.id} className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
-                  {scopeTranslations[data.type] || data.type}: {data.value}
-                </li>
-              ))}
-            </ul>
-
-            {requiredScopes.filter(
-              (scope: string) => !currentData.some((data: { type: string }) => data.type === scope)
-            ).length > 0 && (
-                <>
-                  <h3 className="mt-4 text-sm font-medium text-red-600">
-                    La siguiente información es requerida:
-                  </h3>
-                  <ul className="mt-2 text-sm text-red-500 list-disc list-inside">
-                    {requiredScopes
-                      .filter(
-                        (scope: string) =>
-                          !currentData.some((data: { type: string }) => data.type === scope)
-                      )
-                      .map((scope: string) => (
-                        <li key={scope} className="flex items-center gap-2">
-                          <span>⚠️</span>
-                          {scopeTranslations[scope] || scope}
-                        </li>
-                      ))}
-                  </ul>
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="mt-4 w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
-                  >
-                    Agregar información faltante
-                  </button>
-                </>
-              )}
-          </div>
         </div>
 
         {isModalOpen && (
@@ -174,13 +144,60 @@ function ConsentPage() {
         )}
 
         <div className="py-4">
-          <div className="flex items-center justify-center space-x-4 p-4 bg-gray-50 rounded-md">
-            <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-              {userEmail.charAt(0).toUpperCase()}
+          <div className="flex flex-col space-y-4 p-4 bg-gray-50 rounded-md">
+            <div className="flex items-center justify-center space-x-4">
+              <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                {userEmail.charAt(0).toUpperCase()}
+              </div>
+              <div className="text-sm">
+                <p className="font-medium text-gray-900">{userEmail}</p>
+                <p className="text-gray-500">Cuenta Personal</p>
+              </div>
             </div>
-            <div className="text-sm">
-              <p className="font-medium text-gray-900">{userEmail}</p>
-              <p className="text-gray-500">Cuenta Personal</p>
+
+            <div className="border-t border-gray-200 pt-4">
+              <div className="text-left">
+                <h3 className="text-sm font-medium text-gray-900">
+                  La siguiente información será compartida:
+                </h3>
+                <ul className="mt-2 text-sm text-gray-600 list-disc list-inside">
+                  {currentData.map((data: { id: string; type: string; value: string }) => (
+                    <li key={data.id} className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span>
+                      {scopeTranslations[data.type] || data.type}: {data.value}
+                    </li>
+                  ))}
+                </ul>
+
+                {requiredScopes.filter(
+                  (scope: string) => !currentData.some((data: { type: string }) => data.type === scope)
+                ).length > 0 && (
+                    <>
+                      <h3 className="mt-4 text-sm font-medium text-red-600">
+                        La siguiente información es requerida:
+                      </h3>
+                      <ul className="mt-2 text-sm text-red-500 list-disc list-inside">
+                        {requiredScopes
+                          .filter(
+                            (scope: string) =>
+                              !currentData.some((data: { type: string }) => data.type === scope)
+                          )
+                          .map((scope: string) => (
+                            <li key={scope} className="flex items-center gap-2">
+                              <span>⚠️</span>
+                              {scopeTranslations[scope] || scope}
+                            </li>
+                          ))}
+                      </ul>
+                      <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="mt-4 w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+                      >
+                        Agregar información faltante
+                      </button>
+                    </>
+                  )}
+              </div>
             </div>
           </div>
         </div>
