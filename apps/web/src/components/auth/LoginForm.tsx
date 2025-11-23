@@ -1,12 +1,24 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { authClient } from "@/integrations/auth/client";
 import { SocialLoginButton } from "./SocialLoginButton";
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { getOAuthApplicationByClientId } from "@/db/crud/oauth_application";
 
 export function LoginForm() {
   const data = useSearch({ from: "/_authflow/login" });
   const navigate = useNavigate();
+  
+  // Get client_id from URL params
+  const searchParams = new URLSearchParams(window.location.search);
+  const clientId = searchParams.get('client_id');
+  
+  // Fetch OAuth application info
+  const { data: oauthApp } = useQuery({
+    queryKey: ['oauth-app', clientId],
+    queryFn: () => clientId ? getOAuthApplicationByClientId({ data: { clientId } }) : null,
+    enabled: !!clientId,
+  });
 
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -66,18 +78,25 @@ export function LoginForm() {
       : loginWithOtpMutation.isPending;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 w-full">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {step === "email" ? "Sign in with OTP" : "Enter verification code"}
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            {step === "email"
-              ? "Enter your email to receive a one-time password"
-              : "Check your console for the OTP code"}
-          </p>
-        </div>
+        {/* OAuth Application Info */}
+        {oauthApp && (
+          <div className="flex flex-col items-center space-y-3 border border-gray-200/50 p-4 rounded-lg bg-white">
+            {oauthApp.icon && (
+              <img 
+                src={oauthApp.icon} 
+                alt={oauthApp.name || 'Application'} 
+                className="w-16 h-16 rounded-lg shadow-md object-cover"
+              />
+            )}
+            <div className="text-center">
+              <p className="text-sm text-gray-600">Sign in to</p>
+              <h3 className="text-xl font-bold text-gray-900">{oauthApp.name}</h3>
+            </div>
+          </div>
+        )}
+        
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded">
@@ -161,7 +180,7 @@ export function LoginForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-white"
                   placeholder="Email address"
                   disabled={isLoading}
                 />
