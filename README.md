@@ -18,14 +18,26 @@ team-42
 
 ## Resumen
 
-Onboard es una Capa de Abstracción y Seguridad que permite a las aplicaciones legacy implementar un Inicio de Sesión Único (SSO) a través del estándar OAuth 2.0. El desarrollador registra su aplicación para obtener credenciales (client_id y secret_id), y el usuario final solo se registra y gestiona sus datos una única vez en Onboard. De esta forma, las aplicaciones antiguas consumen datos de usuario actualizados, seguros y limitados por alcance (scope) desde una API central, mitigando el riesgo de seguridad y la deuda técnica en múltiples sistemas.
+Los procesos de onboarding son lentos.
 
-Una plataforma de onboarding de datos reutilizables, donde el usuario completa una vez sus datos básicos (correo, tel., dirección, estado civil, documentos, etc.).
+Te piden mucha informacion una y otra vez.
 
-Luego, cuando se le solicita completar otro formulario (por ejemplo formularios de salud, reclutamiento, servicio público, etc.), esos datos se auto completan con su consentimiento.
+El tramite de acreditacion de informacion es lento.
 
-Además, la solución incluye verificación de datos críticos: validar que los documentos sean auténticos, que el RUT/cédula exista, que el título esté validado, etc.
+Para eso existe "GoBoard".
 
-La plataforma actúa, en cierto sentido, como un Identity/Data Provider o como un intermediario que reduce la fricción para los usuarios y ahorra duplicación para las empresas/organizaciones que recopilan esos datos repetidamente.
+Te ahorramos la pega de tener que buscar y lidiar con informacion duplicada en distintas partes.
 
-La propuesta de valor es tanto para el usuario (menos formularios, menos cargas) como para la organización (datos más confiables, menor error, menor carga de proceso).
+Verificamos documentos en el momento.
+
+Nos integramos con tu identity provider (OAuth + OIDC).
+
+Deja de pedir los mismos datos una y otra vez. Pidelos una vez a tu usuario, y
+
+Onboardea tus usuarios en minutos, en vez de esperar dias.
+
+Ten gobernanza de tus datos.
+
+Plug and play con tu app.
+
+Somos tu solucion de identidad global.
