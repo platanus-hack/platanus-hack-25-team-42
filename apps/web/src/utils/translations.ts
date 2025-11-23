@@ -8,6 +8,8 @@ export const scopeTranslations: Record<string, string> = {
     nationality: "Nacionalidad",
     marital_status: "Estado civil",
     address: "Dirección",
+    region: "Región",
+    commune: "Comuna",
     gender: "Género",
     profession: "Profesión",
     income: "Ingresos",

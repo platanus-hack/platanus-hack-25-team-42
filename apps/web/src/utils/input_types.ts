@@ -1,0 +1,17 @@
+export const inputTypeMapping: Record<string, string> = {
+    rut: "text",
+    email: "email",
+    phone: "tel",
+    first_name: "text",
+    last_name: "text",
+    date_of_birth: "date",
+    nationality: "text",
+    marital_status: "text",
+    address: "text",
+    region: "text",
+    commune: "text",
+    gender: "text",
+    profession: "text",
+    income: "number",
+    job_position: "text",
+};
