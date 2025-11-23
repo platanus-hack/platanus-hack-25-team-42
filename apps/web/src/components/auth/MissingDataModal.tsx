@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { userDataTypeList } from "@/db/data_types";
 import { useRouter } from "@tanstack/react-router";
+import { scopeTranslations } from "@/utils/translations";
 
 interface MissingDataModalProps {
     scopes: string[];
@@ -81,12 +82,12 @@ export function MissingDataModal({
                     {scopes.map((scope) => (
                         <div key={scope} className="space-y-2">
                             <label className="text-sm font-medium capitalize">
-                                {scope.replace(/_/g, " ")}
+                                {scopeTranslations[scope] || scope.replace(/_/g, " ")}
                             </label>
                             <Input
                                 value={values[scope] || ""}
                                 onChange={(e) => handleValueChange(scope, e.target.value)}
-                                placeholder={`Enter your ${scope.replace(/_/g, " ")}`}
+                                placeholder={`Ingrese su ${scopeTranslations[scope]?.toLowerCase() || scope.replace(/_/g, " ")}`}
                             />
                         </div>
                     ))}

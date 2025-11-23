@@ -45,6 +45,7 @@ const getConsentData = createServerFn({
       requiredScopes,
       currentData: currentDataByType,
       userId: session.user.id,
+      userEmail: session.user.email,
     };
   });
 
@@ -68,9 +69,11 @@ export const Route = createFileRoute("/_authflow/consent")({
   component: ConsentPage,
 });
 
+import { scopeTranslations } from "@/utils/translations";
+
 function ConsentPage() {
   const [error, setError] = useState<string | null>(null);
-  const { currentData, requiredScopes, userId } = Route.useLoaderData();
+  const { currentData, requiredScopes, userId, userEmail } = Route.useLoaderData();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Check if all required scopes have corresponding data
@@ -117,13 +120,13 @@ function ConsentPage() {
 
           <div className="mt-4 text-left">
             <h3 className="text-sm font-medium text-gray-900">
-              The following information will be shared:
+              La siguiente información será compartida:
             </h3>
             <ul className="mt-2 text-sm text-gray-600 list-disc list-inside">
               {currentData.map((data: { id: string; type: string; value: string }) => (
                 <li key={data.id} className="flex items-center gap-2">
                   <span className="text-green-500">✓</span>
-                  {data.type}: {data.value}
+                  {scopeTranslations[data.type] || data.type}: {data.value}
                 </li>
               ))}
             </ul>
@@ -133,7 +136,7 @@ function ConsentPage() {
             ).length > 0 && (
                 <>
                   <h3 className="mt-4 text-sm font-medium text-red-600">
-                    The following information is missing:
+                    La siguiente información es requerida:
                   </h3>
                   <ul className="mt-2 text-sm text-red-500 list-disc list-inside">
                     {requiredScopes
@@ -144,7 +147,7 @@ function ConsentPage() {
                       .map((scope: string) => (
                         <li key={scope} className="flex items-center gap-2">
                           <span>⚠️</span>
-                          {scope}
+                          {scopeTranslations[scope] || scope}
                         </li>
                       ))}
                   </ul>
@@ -152,7 +155,7 @@ function ConsentPage() {
                     onClick={() => setIsModalOpen(true)}
                     className="mt-4 w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
                   >
-                    Add Missing Information
+                    Agregar información faltante
                   </button>
                 </>
               )}
@@ -173,10 +176,10 @@ function ConsentPage() {
         <div className="py-4">
           <div className="flex items-center justify-center space-x-4 p-4 bg-gray-50 rounded-md">
             <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-              U
+              {userEmail.charAt(0).toUpperCase()}
             </div>
             <div className="text-sm">
-              <p className="font-medium text-gray-900">user@example.com</p>
+              <p className="font-medium text-gray-900">{userEmail}</p>
               <p className="text-gray-500">Cuenta Personal</p>
             </div>
           </div>
