@@ -22,6 +22,7 @@ import { Route as With_headerAuthedProfileRouteImport } from './routes/_with_hea
 import { Route as With_headerAuthedDevRouteImport } from './routes/_with_header/_authed/dev'
 import { Route as With_headerAuthedProfileIndexRouteImport } from './routes/_with_header/_authed/profile/index'
 import { Route as With_headerAuthedDevIndexRouteImport } from './routes/_with_header/_authed/dev/index'
+import { Route as With_headerAuthedProfileSettingsRouteImport } from './routes/_with_header/_authed/profile/settings'
 import { Route as With_headerAuthedProfileConnectedAppsRouteImport } from './routes/_with_header/_authed/profile/connected-apps'
 import { Route as With_headerAuthedDevAppsNewRouteImport } from './routes/_with_header/_authed/dev/apps.new'
 import { Route as With_headerAuthedDevAppClientIdRouteImport } from './routes/_with_header/_authed/dev/app.$clientId'
@@ -91,6 +92,12 @@ const With_headerAuthedDevIndexRoute =
     path: '/',
     getParentRoute: () => With_headerAuthedDevRoute,
   } as any)
+const With_headerAuthedProfileSettingsRoute =
+  With_headerAuthedProfileSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => With_headerAuthedProfileRoute,
+  } as any)
 const With_headerAuthedProfileConnectedAppsRoute =
   With_headerAuthedProfileConnectedAppsRouteImport.update({
     id: '/connected-apps',
@@ -120,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
+  '/profile/settings': typeof With_headerAuthedProfileSettingsRoute
   '/dev/': typeof With_headerAuthedDevIndexRoute
   '/profile/': typeof With_headerAuthedProfileIndexRoute
   '/dev/app/$clientId': typeof With_headerAuthedDevAppClientIdRoute
@@ -133,6 +141,7 @@ export interface FileRoutesByTo {
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
+  '/profile/settings': typeof With_headerAuthedProfileSettingsRoute
   '/dev': typeof With_headerAuthedDevIndexRoute
   '/profile': typeof With_headerAuthedProfileIndexRoute
   '/dev/app/$clientId': typeof With_headerAuthedDevAppClientIdRoute
@@ -152,6 +161,7 @@ export interface FileRoutesById {
   '/api/admin/delete-user': typeof ApiAdminDeleteUserRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_with_header/_authed/profile/connected-apps': typeof With_headerAuthedProfileConnectedAppsRoute
+  '/_with_header/_authed/profile/settings': typeof With_headerAuthedProfileSettingsRoute
   '/_with_header/_authed/dev/': typeof With_headerAuthedDevIndexRoute
   '/_with_header/_authed/profile/': typeof With_headerAuthedProfileIndexRoute
   '/_with_header/_authed/dev/app/$clientId': typeof With_headerAuthedDevAppClientIdRoute
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/profile/connected-apps'
+    | '/profile/settings'
     | '/dev/'
     | '/profile/'
     | '/dev/app/$clientId'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/profile/connected-apps'
+    | '/profile/settings'
     | '/dev'
     | '/profile'
     | '/dev/app/$clientId'
@@ -200,6 +212,7 @@ export interface FileRouteTypes {
     | '/api/admin/delete-user'
     | '/api/auth/$'
     | '/_with_header/_authed/profile/connected-apps'
+    | '/_with_header/_authed/profile/settings'
     | '/_with_header/_authed/dev/'
     | '/_with_header/_authed/profile/'
     | '/_with_header/_authed/dev/app/$clientId'
@@ -306,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof With_headerAuthedDevIndexRouteImport
       parentRoute: typeof With_headerAuthedDevRoute
     }
+    '/_with_header/_authed/profile/settings': {
+      id: '/_with_header/_authed/profile/settings'
+      path: '/settings'
+      fullPath: '/profile/settings'
+      preLoaderRoute: typeof With_headerAuthedProfileSettingsRouteImport
+      parentRoute: typeof With_headerAuthedProfileRoute
+    }
     '/_with_header/_authed/profile/connected-apps': {
       id: '/_with_header/_authed/profile/connected-apps'
       path: '/connected-apps'
@@ -361,6 +381,7 @@ const With_headerAuthedDevRouteWithChildren =
 
 interface With_headerAuthedProfileRouteChildren {
   With_headerAuthedProfileConnectedAppsRoute: typeof With_headerAuthedProfileConnectedAppsRoute
+  With_headerAuthedProfileSettingsRoute: typeof With_headerAuthedProfileSettingsRoute
   With_headerAuthedProfileIndexRoute: typeof With_headerAuthedProfileIndexRoute
 }
 
@@ -368,6 +389,8 @@ const With_headerAuthedProfileRouteChildren: With_headerAuthedProfileRouteChildr
   {
     With_headerAuthedProfileConnectedAppsRoute:
       With_headerAuthedProfileConnectedAppsRoute,
+    With_headerAuthedProfileSettingsRoute:
+      With_headerAuthedProfileSettingsRoute,
     With_headerAuthedProfileIndexRoute: With_headerAuthedProfileIndexRoute,
   }
 

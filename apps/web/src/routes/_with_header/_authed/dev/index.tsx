@@ -3,6 +3,7 @@ import { oauthApplication } from "@/db/schema.auth";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
+import { Avatar } from "@base-ui-components/react/avatar";
 
 const getApps = createServerFn({
   method: "GET",
@@ -85,17 +86,20 @@ function RouteComponent() {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    {app.icon ? (
-                      <img
-                        src={app.icon}
-                        alt={app.name || "Icono de Aplicación"}
-                        className="w-12 h-12 rounded-lg object-cover border border-slate-100"
-                      />
-                    ) : (
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center text-xl font-bold text-slate-500">
+                    <Avatar.Root className="w-12 h-12 rounded-lg border border-slate-100 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center shrink-0">
+                      {app.icon && (
+                        <Avatar.Image
+                          src={app.icon}
+                          alt={app.name || "Icono de Aplicación"}
+                          className="w-full h-full object-cover"
+                          width="48"
+                          height="48"
+                        />
+                      )}
+                      <Avatar.Fallback className="w-full h-full flex items-center justify-center text-xl font-bold text-slate-500">
                         {(app.name || "A").charAt(0).toUpperCase()}
-                      </div>
-                    )}
+                      </Avatar.Fallback>
+                    </Avatar.Root>
                     <div>
                       <h3 className="font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
                         {app.name}

@@ -31,21 +31,21 @@ export function Header() {
                   className="text-slate-600 hover:text-slate-900 text-sm font-medium transition-colors"
                   activeProps={{ className: "text-slate-900" }}
                 >
-                  Usuarios (Staff)
+                  Usuarios (Solo Staff!)
                 </Link>
                 <Link
                   to="/dev"
                   className="text-slate-600 hover:text-slate-900 text-sm font-medium transition-colors"
                   activeProps={{ className: "text-slate-900" }}
                 >
-                  Panel de Desarrollador
+                  Panel de Desarrollador (Clientes)
                 </Link>
                 <Link
                   to="/profile"
                   className="text-slate-600 hover:text-slate-900 text-sm font-medium transition-colors"
                   activeProps={{ className: "text-slate-900" }}
                 >
-                  Panel de Perfil
+                  Panel de Perfil (Usuarios)
                 </Link>
               </>
             )}

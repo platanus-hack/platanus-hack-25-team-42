@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { CheckCircle2, Pencil, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
 
 interface DataRowProps {
   label: string
@@ -47,22 +46,29 @@ export default function DataRow({ label, value, verified = false, onSave }: Data
 
         {isEditing ? (
           <div className="flex gap-2">
-            <Button variant="ghost" size="sm" onClick={handleCancel} className="text-red-500 hover:bg-red-50">
-              <X size={16} />
-            </Button>
-            <Button variant="ghost" size="sm" onClick={handleSave} className="text-green-600 hover:bg-green-50">
-              <CheckCircle2 size={16} />
-            </Button>
+            <button 
+              onClick={handleCancel} 
+              className="h-8 w-8 rounded-lg inline-flex items-center justify-center transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 text-red-500 hover:text-red-600 hover:bg-red-50/80 border border-transparent hover:border-red-100 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1"
+              aria-label="Cancelar"
+            >
+              <X size={16} strokeWidth={2.5} />
+            </button>
+            <button 
+              onClick={handleSave} 
+              className="h-8 w-8 rounded-lg inline-flex items-center justify-center transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 text-green-600 hover:text-green-700 hover:bg-green-50/80 border border-transparent hover:border-green-100 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-1"
+              aria-label="Guardar"
+            >
+              <CheckCircle2 size={16} strokeWidth={2.5} />
+            </button>
           </div>
         ) : (
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
             onClick={() => setIsEditing(true)}
-            className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600"
+            className="h-8 w-8 rounded-lg inline-flex items-center justify-center transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 hover:bg-blue-50/80 border border-transparent hover:border-blue-100 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1"
+            aria-label="Editar"
           >
-            <Pencil size={14} />
-          </Button>
+            <Pencil size={14} strokeWidth={2.5} />
+          </button>
         )}
       </div>
     </div>
