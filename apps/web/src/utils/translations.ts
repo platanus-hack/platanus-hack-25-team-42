@@ -1,0 +1,15 @@
+export const scopeTranslations: Record<string, string> = {
+    rut: "RUT",
+    email: "Correo electrónico",
+    phone: "Teléfono",
+    first_name: "Nombres",
+    last_name: "Apellidos",
+    date_of_birth: "Fecha de nacimiento",
+    nationality: "Nacionalidad",
+    marital_status: "Estado civil",
+    address: "Dirección",
+    gender: "Género",
+    profession: "Profesión",
+    income: "Ingresos",
+    job_position: "Cargo",
+};
