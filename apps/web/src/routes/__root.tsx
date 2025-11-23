@@ -8,7 +8,6 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import { QueryClient, queryOptions } from "@tanstack/react-query";
 import appCss from "../styles.css?url";
-import { Header } from "@/components/Header";
 
 const fetchAuth = createServerFn({ method: "GET" }).handler(
   async ({ context }) => context.getSession()
@@ -17,26 +16,89 @@ const fetchAuth = createServerFn({ method: "GET" }).handler(
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
-  head: () => ({
-    meta: [
-      {
-        charSet: "utf-8",
-      },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
-      },
-      {
-        title: "TanStack Start Starter",
-      },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
-  }),
+  head: () => {
+    const baseUrl =
+      process.env.VITE_BASE_URL ||
+      (typeof window !== "undefined"
+        ? window.location.origin
+        : "https://goboard.app");
+    const ogImageUrl = `${baseUrl}/open_graph.png`;
+
+    const title = "Goboard";
+    const description =
+      "Una plataforma de onboarding de datos reutilizables, donde el usuario completa una vez sus datos básicos (correo, tel., dirección, estado civil, documentos, etc.). Goboard es una Capa de Abstracción y Seguridad que permite a las aplicaciones legacy implementar un Inicio de Sesión Único (SSO) a través del estándar OAuth 2.0.";
+
+    return {
+      title,
+      meta: [
+        {
+          charSet: "utf-8",
+        },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1",
+        },
+        {
+          name: "description",
+          content: description,
+        },
+        {
+          property: "og:title",
+          content: title,
+        },
+        {
+          property: "og:description",
+          content: description,
+        },
+        {
+          property: "og:image",
+          content: ogImageUrl,
+        },
+        {
+          property: "og:image:width",
+          content: "1200",
+        },
+        {
+          property: "og:image:height",
+          content: "630",
+        },
+        {
+          property: "og:type",
+          content: "website",
+        },
+        {
+          property: "og:site_name",
+          content: "Goboard",
+        },
+        {
+          property: "og:url",
+          content: baseUrl,
+        },
+        {
+          name: "twitter:card",
+          content: "summary_large_image",
+        },
+        {
+          name: "twitter:title",
+          content: title,
+        },
+        {
+          name: "twitter:description",
+          content: description,
+        },
+        {
+          name: "twitter:image",
+          content: ogImageUrl,
+        },
+      ],
+      links: [
+        {
+          rel: "stylesheet",
+          href: appCss,
+        },
+      ],
+    };
+  },
   beforeLoad: async ({ context }) => {
     const { queryClient } = context;
     const sessionQuery = queryOptions({
@@ -51,7 +113,7 @@ export const Route = createRootRouteWithContext<{
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
