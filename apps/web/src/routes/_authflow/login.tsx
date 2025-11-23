@@ -134,7 +134,7 @@ function RouteComponent() {
           {step === "email" ? (
             <>
               {/* Social Login Options */}
-              <div className="mt-8 space-y-3">
+              <div className="space-y-3">
                 <SocialLoginButton
                   provider="google"
                   label="Continuar con Google"
@@ -207,7 +207,7 @@ function RouteComponent() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-white"
+                    className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-yellow-700 focus:border-yellow-700 focus:z-10 sm:text-sm bg-white"
                     placeholder="Correo electrónico"
                     disabled={isLoading}
                   />
@@ -217,7 +217,7 @@ function RouteComponent() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-yellow-700 hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? "Enviando..." : "Enviar OTP"}
                   </button>
@@ -237,7 +237,7 @@ function RouteComponent() {
                   required
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-yellow-700 focus:border-yellow-700 focus:z-10 sm:text-sm"
                   placeholder="Ingrese código de 6 dígitos"
                   maxLength={6}
                   disabled={isLoading}
@@ -249,14 +249,14 @@ function RouteComponent() {
                   type="button"
                   onClick={goBack}
                   disabled={isLoading}
-                  className="flex-1 py-2 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-2 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Volver
                 </button>
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="flex-1 py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-yellow-700 hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? "Verificando..." : "Verificar e Iniciar Sesión"}
                 </button>

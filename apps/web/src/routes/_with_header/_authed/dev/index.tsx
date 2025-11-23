@@ -82,7 +82,7 @@ function RouteComponent() {
                 key={app.clientId}
                 to="/dev/app/$clientId"
                 params={{ clientId: app.clientId! }}
-                className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all duration-200"
+                className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-yellow-700 hover:shadow-md transition-all duration-200"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -101,7 +101,7 @@ function RouteComponent() {
                       </Avatar.Fallback>
                     </Avatar.Root>
                     <div>
-                      <h3 className="font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
+                      <h3 className="font-semibold text-slate-900 group-hover:text-yellow-700 transition-colors">
                         {app.name}
                       </h3>
                       <span className="text-xs text-slate-500 font-mono">
@@ -174,7 +174,7 @@ function RouteComponent() {
                 Comience creando su primera aplicación OAuth
               </p>
               <button
-                className="text-blue-600 font-medium text-sm hover:text-blue-700 hover:underline"
+                className="text-yellow-700 font-medium text-sm hover:text-yellow-800 hover:underline"
                 onClick={() => navigate({ to: "./apps/new" })}
               >
                 Crear aplicación &rarr;

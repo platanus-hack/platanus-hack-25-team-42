@@ -1,5 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { authClient } from "@/integrations/auth/client";
+import { Avatar } from "@base-ui-components/react/avatar";
 
 export function Header() {
   const { data: session, isPending } = authClient.useSession();
@@ -11,9 +12,9 @@ export function Header() {
         <div className="flex items-center gap-8">
           <Link
             to="/"
-            className="text-xl font-bold text-slate-900 hover:text-blue-600 transition-colors"
+            className="text-xl font-bold bg-linear-to-r from-yellow-600 to-yellow-500 bg-clip-text text-transparent hover:text-yellow-700 transition-colors"
           >
-            Platanus Auth
+            GoBoard
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -66,17 +67,20 @@ export function Header() {
           ) : session ? (
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
-                {session.user.image ? (
-                  <img
-                    src={session.user.image}
-                    alt={session.user.name}
-                    className="w-8 h-8 rounded-full border border-slate-200"
-                  />
-                ) : (
-                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white">
+                <Avatar.Root className="w-8 h-8 rounded-full border border-slate-200 overflow-hidden bg-yellow-700 flex items-center justify-center shrink-0">
+                  {session.user.image && (
+                    <Avatar.Image
+                      src={session.user.image}
+                      alt={session.user.name}
+                      className="w-full h-full object-cover"
+                      width="32"
+                      height="32"
+                    />
+                  )}
+                  <Avatar.Fallback className="w-full h-full flex items-center justify-center text-xs font-bold text-white">
                     {session.user.name.charAt(0).toUpperCase()}
-                  </div>
-                )}
+                  </Avatar.Fallback>
+                </Avatar.Root>
                 <div className="hidden sm:block text-right">
                   <p className="text-slate-900 text-sm font-medium leading-none">
                     {session.user.name}

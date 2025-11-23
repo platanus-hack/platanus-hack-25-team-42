@@ -117,8 +117,8 @@ function SettingsPage() {
             <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-blue-100">
-                    <Key className="w-5 h-5 text-blue-600" />
+                  <div className="p-2 rounded-lg bg-yellow-100">
+                    <Key className="w-5 h-5 text-yellow-700" />
                   </div>
                   <div>
                     <h2 className="text-lg font-semibold text-slate-900">
@@ -174,7 +174,7 @@ function SettingsPage() {
                       >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <Shield className="w-5 h-5 text-blue-600" />
+                            <Shield className="w-5 h-5 text-yellow-700" />
                             <span className="font-medium text-slate-900">
                               {pk.name || "Sin nombre"}
                             </span>
@@ -303,7 +303,7 @@ function SettingsPage() {
                     onChange={(e) =>
                       setSelectedRetention(Number(e.target.value))
                     }
-                    className="w-full max-w-md px-4 py-2 border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full max-w-md px-4 py-2 border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-yellow-700 focus:border-transparent"
                   >
                     <option value={30}>30 días</option>
                     <option value={60}>60 días</option>

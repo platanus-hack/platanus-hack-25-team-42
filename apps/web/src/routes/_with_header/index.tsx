@@ -9,7 +9,7 @@ function App() {
     <div className="min-h-[calc(100vh-64px)] bg-white flex flex-col items-center justify-center relative overflow-hidden">
       {/* Background Graphic */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none z-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl mix-blend-multiply animate-blob"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-100/50 rounded-full blur-3xl mix-blend-multiply animate-blob"></div>
         <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-100/50 rounded-full blur-3xl mix-blend-multiply animate-blob animation-delay-2000"></div>
         <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-pink-100/50 rounded-full blur-3xl mix-blend-multiply animate-blob animation-delay-4000"></div>
       </div>
@@ -18,7 +18,7 @@ function App() {
         <h1 className="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight mb-8 relative inline-block">
           <div className="absolute -top-12 -left-12 animate-float-slow hidden lg:block">
             <div className="w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-sm shadow-xl border border-slate-100 flex items-center justify-center transform -rotate-12">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg">
+              <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-700 font-bold text-lg">
                 JD
               </div>
             </div>
@@ -39,7 +39,7 @@ function App() {
           </div>
           Tus usuarios, listos
           <svg
-            className="absolute -top-8 -right-8 w-16 h-16 text-blue-500/20 hidden md:block"
+            className="absolute -top-8 -right-8 w-16 h-16 text-yellow-500/20 hidden md:block"
             viewBox="0 0 24 24"
             fill="currentColor"
           >
@@ -53,7 +53,7 @@ function App() {
         <div>
           <Link
             to="/login"
-            className="inline-block px-8 py-4 bg-slate-900 text-white rounded-lg font-medium text-lg hover:bg-slate-800 transition-all transform hover:-translate-y-1"
+            className="inline-block px-8 py-4 bg-yellow-700 text-white rounded-lg font-medium text-lg hover:bg-yellow-800 transition-all transform hover:-translate-y-1"
           >
             Empieza
           </Link>

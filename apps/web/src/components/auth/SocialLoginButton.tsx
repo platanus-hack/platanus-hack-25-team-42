@@ -34,7 +34,7 @@ export function SocialLoginButton({
       type="button"
       onClick={handleLogin}
       disabled={disabled}
-      className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
     >
       {icon}
       {label}

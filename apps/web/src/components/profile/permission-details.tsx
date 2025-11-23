@@ -70,7 +70,7 @@ export default function PermissionDetails({ company }: PermissionDetailsProps) {
                     className="flex items-center justify-between p-3 rounded-lg bg-white/60 border border-gray-100/30 shadow-sm"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
+                      <div className="w-1.5 h-1.5 rounded-full bg-yellow-700"></div>
                       <span className="text-sm font-medium text-gray-700">{item.label}</span>
                     </div>
                     <ShieldCheck size={14} className="text-green-500 opacity-50" />

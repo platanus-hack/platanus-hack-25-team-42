@@ -38,7 +38,7 @@ export default function CompanyList({ companies, selectedId, onSelect }: Company
             </h4>
             <p className="text-xs text-gray-400 truncate">Ver detalles</p>
           </div>
-          {selectedId === company.id && <ChevronRight size={14} className="text-blue-600" />}
+          {selectedId === company.id && <ChevronRight size={14} className="text-yellow-700" />}
         </button>
       ))}
     </div>

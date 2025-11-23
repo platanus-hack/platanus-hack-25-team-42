@@ -64,7 +64,7 @@ export default function DataRow({ label, value, verified = false, onSave }: Data
         ) : (
           <button
             onClick={() => setIsEditing(true)}
-            className="h-8 w-8 rounded-lg inline-flex items-center justify-center transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 hover:bg-blue-50/80 border border-transparent hover:border-blue-100 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1"
+            className="h-8 w-8 rounded-lg inline-flex items-center justify-center transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-yellow-700 hover:bg-yellow-50/80 border border-transparent hover:border-yellow-100 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-700 focus-visible:ring-offset-1"
             aria-label="Editar"
           >
             <Pencil size={14} strokeWidth={2.5} />

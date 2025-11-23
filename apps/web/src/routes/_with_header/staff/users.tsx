@@ -78,7 +78,7 @@ function AdminUsersPage() {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-white text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-700 mx-auto mb-4"></div>
           <p>Cargando sesión...</p>
         </div>
       </div>
@@ -91,7 +91,7 @@ function AdminUsersPage() {
         <div className="text-white text-center">
           <h1 className="text-2xl font-bold mb-4">Acceso Denegado</h1>
           <p className="mb-4">Debe iniciar sesión para ver esta página.</p>
-          <a href="/login" className="text-blue-400 hover:underline">
+          <a href="/login" className="text-yellow-600 hover:underline">
             Ir a Iniciar Sesión
           </a>
         </div>
@@ -143,7 +143,7 @@ function AdminUsersPage() {
                             className="w-10 h-10 rounded-full object-cover border border-slate-200 shadow-sm"
                           />
                         ) : (
-                          <div className="w-10 h-10 rounded-full bg-linear-to-br from-blue-50 to-blue-100 flex items-center justify-center text-sm font-bold text-blue-600 border border-blue-100">
+                          <div className="w-10 h-10 rounded-full bg-linear-to-br from-yellow-50 to-yellow-100 flex items-center justify-center text-sm font-bold text-yellow-700 border border-yellow-100">
                             {user.name.charAt(0).toUpperCase()}
                           </div>
                         )}

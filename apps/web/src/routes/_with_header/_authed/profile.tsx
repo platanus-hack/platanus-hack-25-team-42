@@ -15,7 +15,7 @@ function ProfileLayout() {
             activeOptions={{ exact: true }}
             className="px-4 py-2 rounded-lg transition-all flex items-center gap-2 border border-transparent"
             activeProps={{
-              className: "bg-white text-blue-600 shadow-sm border-blue-200",
+              className: "bg-white text-yellow-700 shadow-sm border-yellow-200",
             }}
             inactiveProps={{
               className: "text-gray-600 hover:bg-white/60 hover:text-gray-900",
@@ -28,7 +28,7 @@ function ProfileLayout() {
             to="/profile/connected-apps"
             className="px-4 py-2 rounded-lg transition-all flex items-center gap-2 border border-transparent"
             activeProps={{
-              className: "bg-white text-blue-600 shadow-sm border-blue-200",
+              className: "bg-white text-yellow-700 shadow-sm border-yellow-200",
             }}
             inactiveProps={{
               className: "text-gray-600 hover:bg-white/60 hover:text-gray-900",
@@ -41,7 +41,7 @@ function ProfileLayout() {
             to="/profile/settings"
             className="px-4 py-2 rounded-lg transition-all flex items-center gap-2 border border-transparent"
             activeProps={{
-              className: "bg-white text-blue-600 shadow-sm border-blue-200",
+              className: "bg-white text-yellow-700 shadow-sm border-yellow-200",
             }}
             inactiveProps={{
               className: "text-gray-600 hover:bg-white/60 hover:text-gray-900",

@@ -158,7 +158,7 @@ function RouteComponent() {
                   value={key}
                   className="group flex cursor-pointer items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 transition hover:bg-slate-50"
                 >
-                  <div className="flex size-5 items-center justify-center rounded border border-slate-300 group-data-[state=checked]:border-indigo-600 group-data-[state=checked]:bg-indigo-600">
+                  <div className="flex size-5 items-center justify-center rounded border border-slate-300 group-data-[state=checked]:border-yellow-700 group-data-[state=checked]:bg-yellow-700">
                     <Checkbox.Indicator className="text-black">
                       <Check className="size-3.5" />
                     </Checkbox.Indicator>

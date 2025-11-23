@@ -113,8 +113,10 @@ export function MissingDataModal({
             <div className="space-y-1">
               {isProcessingFile ? (
                 <div className="flex flex-col items-center justify-center py-2">
-                  <div className="animate-spin rounded-full h-10 w-10 border-4 border-indigo-200 border-t-indigo-600"></div>
-                  <p className="mt-2 text-sm text-gray-600">Procesando documento...</p>
+                  <div className="animate-spin rounded-full h-10 w-10 border-4 border-yellow-200 border-t-yellow-700"></div>
+                  <p className="mt-2 text-sm text-gray-600">
+                    Procesando documento...
+                  </p>
                 </div>
               ) : fileName ? (
                 <>
@@ -155,7 +157,7 @@ export function MissingDataModal({
                     />
                   </svg>
                   <div className="text-sm text-gray-600">
-                    <span className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <span className="font-medium text-yellow-700 hover:text-yellow-600">
                       Sube un archivo
                     </span>{" "}
                     para autocompletar
@@ -166,7 +168,10 @@ export function MissingDataModal({
           </div>
 
           <div className="relative">
-            <div className="absolute inset-0 flex items-center" aria-hidden="true">
+            <div
+              className="absolute inset-0 flex items-center"
+              aria-hidden="true"
+            >
               <div className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center">
@@ -185,9 +190,10 @@ export function MissingDataModal({
                 type={inputTypeMapping[scope] || "text"}
                 value={values[scope] || ""}
                 onChange={(e) => handleValueChange(scope, e.target.value)}
-                placeholder={`Ingrese su ${scopeTranslations[scope]?.toLowerCase() ||
+                placeholder={`Ingrese su ${
+                  scopeTranslations[scope]?.toLowerCase() ||
                   scope.replace(/_/g, " ")
-                  }`}
+                }`}
               />
             </div>
           ))}
@@ -195,14 +201,14 @@ export function MissingDataModal({
         <DialogFooter>
           <button
             onClick={onClose}
-            className="w-full sm:w-auto px-6 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-6 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancelar
           </button>
           <button
             onClick={() => mutation.mutate()}
             disabled={mutation.isPending || !allFieldsFilled}
-            className="w-full sm:w-auto px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-700 hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {mutation.isPending ? (
               <>
