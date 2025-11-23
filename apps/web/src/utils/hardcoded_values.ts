@@ -1,0 +1,17 @@
+export const hardcodedValues: Record<string, string> = {
+    rut: "12.345.678-9",
+    email: "usuario@ejemplo.com",
+    phone: "+56912345678",
+    first_name: "Juan",
+    last_name: "Pérez",
+    date_of_birth: "1990-01-01",
+    nationality: "Chilena",
+    marital_status: "Soltero",
+    address: "Av. Siempre Viva 742",
+    region: "Metropolitana",
+    commune: "Santiago",
+    gender: "Masculino",
+    profession: "Ingeniero",
+    income: "1000000",
+    job_position: "Desarrollador",
+};
