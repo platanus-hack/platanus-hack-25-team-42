@@ -7,9 +7,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       id: "my-provider", // signIn("my-provider") will be part of the callback URL
       name: "My Provider", // optional, used on the default login page as the button text.
       type: "oidc", // or "oauth" for OAuth 2 providers
-      issuer: "http://localhost:3000/api/auth",
-      // wellKnown:
-      //   "http://localhost:3000/api/auth/.well-known/openid-configuration",
+      issuer: process.env.BETTER_AUTH_URL! + "/api/auth",
       clientId: process.env.CLIENT_ID!,
       clientSecret: process.env.CLIENT_SECRET!,
     },

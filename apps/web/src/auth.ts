@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 import { userData } from "./db/schema";
 
 export const auth = betterAuth({
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.BETTER_AUTH_URL!,
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
@@ -26,7 +26,7 @@ export const auth = betterAuth({
       getAdditionalUserInfoClaim: async (_user, _scopes, _client) => {
         
         const claims: Record<string, any> = {};
-        claims["iss"] = "http://localhost:3000/api/auth";
+        claims["iss"] = process.env.BETTER_AUTH_URL! + "/api/auth";
 
         // Obtener datos del usuario desde la base de datos
         try {
@@ -58,7 +58,7 @@ export const auth = betterAuth({
         return claims;
       },
       metadata: {
-        issuer: "http://localhost:3000/api/auth",
+        issuer: process.env.BETTER_AUTH_URL! + "/api/auth",
       },
     }),
     passkey(),
