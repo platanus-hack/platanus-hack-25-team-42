@@ -49,7 +49,7 @@ const getConsentedApplications = createServerFn({
       appName: oauthApplication.name,
       appIcon: oauthApplication.icon,
       appClientId: oauthApplication.clientId,
-      scopes: oauthConsent.scopes,
+      metadata: oauthApplication.metadata,
       consentGiven: oauthConsent.consentGiven,
       createdAt: oauthConsent.createdAt,
     })
@@ -61,15 +61,20 @@ const getConsentedApplications = createServerFn({
     .where(eq(oauthConsent.userId, session.user.id));
 
   // Parse scopes and format data
-  const formattedConsents: ConsentedApp[] = consents.map((c) => ({
-    consentId: c.consentId,
-    appId: c.appId,
-    appName: c.appName,
-    appIcon: c.appIcon,
-    scopes: c.scopes ? c.scopes.split(/[\s,]+/).filter(Boolean) : [],
-    consentGiven: c.consentGiven,
-    createdAt: c.createdAt,
-  }));
+  const formattedConsents: ConsentedApp[] = consents.map((c) => {
+    const metadata = c.metadata
+      ? (JSON.parse(c.metadata as string) as { scopes?: string[] })
+      : null;
+    return {
+      consentId: c.consentId,
+      appId: c.appId,
+      appName: c.appName,
+      appIcon: c.appIcon,
+      scopes: metadata?.scopes || [],
+      consentGiven: c.consentGiven,
+      createdAt: c.createdAt,
+    };
+  });
 
   return formattedConsents;
 });
@@ -178,7 +183,7 @@ function ConnectedAppsView() {
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                           {app.scopes.length > 0 ? (
-                            app.scopes.map((scope) => (
+                            app.scopes.map((scope: string) => (
                               <span
                                 key={scope}
                                 className="px-2 py-0.5 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200"
@@ -275,7 +280,7 @@ function ConnectedAppsView() {
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                           {app.scopes.length > 0 ? (
-                            app.scopes.map((scope) => (
+                            app.scopes.map((scope: string) => (
                               <span
                                 key={scope}
                                 className="px-2 py-0.5 bg-slate-100 text-slate-400 text-xs rounded border border-slate-200 line-through"
