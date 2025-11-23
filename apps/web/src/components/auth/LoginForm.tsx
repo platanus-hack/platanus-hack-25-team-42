@@ -100,19 +100,6 @@ export function LoginForm() {
           </div>
         )}
 
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {step === "email"
-              ? "Iniciar sesión con OTP"
-              : "Ingrese código de verificación"}
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            {step === "email"
-              ? "Ingrese su correo electrónico para recibir una contraseña de un solo uso"
-              : "Revise su consola para el código OTP"}
-          </p>
-        </div>
-
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded">
             {error instanceof Error ? error.message : "Ocurrió un error"}
