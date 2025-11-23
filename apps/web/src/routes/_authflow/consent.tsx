@@ -44,12 +44,17 @@ const getConsentData = createServerFn({
     return {
       requiredScopes,
       currentData: currentDataByType,
+      userId: session.user.id,
     };
   });
+
+import { MissingDataModal } from "@/components/auth/MissingDataModal";
 
 export const Route = createFileRoute("/_authflow/consent")({
   validateSearch: z.object({
     client_id: z.string(),
+    consent_code: z.string().optional(),
+    scope: z.string().optional(),
   }),
   loaderDeps: ({ search }) => ({ search }),
   loader: async ({ deps: { search } }) => {
@@ -65,7 +70,13 @@ export const Route = createFileRoute("/_authflow/consent")({
 
 function ConsentPage() {
   const [error, setError] = useState<string | null>(null);
-  const { currentData, requiredScopes } = Route.useLoaderData();
+  const { currentData, requiredScopes, userId } = Route.useLoaderData();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Check if all required scopes have corresponding data
+  const hasAllRequiredData = requiredScopes.every((scope: string) =>
+    currentData.some((data: { type: string }) => data.type === scope)
+  );
 
   const consentMutation = useMutation({
     mutationFn: async (accept: boolean) => {
@@ -82,7 +93,6 @@ function ConsentPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-sm border border-gray-200">
         <div className="text-center">
-          {JSON.stringify(requiredScopes)} {JSON.stringify(currentData)}
           <div className="mx-auto h-12 w-12 bg-indigo-100 rounded-full flex items-center justify-center">
             <svg
               className="h-6 w-6 text-indigo-600"
@@ -104,7 +114,61 @@ function ConsentPage() {
           <p className="mt-2 text-sm text-gray-600">
             MyApp quiere acceder a su cuenta
           </p>
+
+          <div className="mt-4 text-left">
+            <h3 className="text-sm font-medium text-gray-900">
+              The following information will be shared:
+            </h3>
+            <ul className="mt-2 text-sm text-gray-600 list-disc list-inside">
+              {currentData.map((data: { id: string; type: string; value: string }) => (
+                <li key={data.id} className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span>
+                  {data.type}: {data.value}
+                </li>
+              ))}
+            </ul>
+
+            {requiredScopes.filter(
+              (scope: string) => !currentData.some((data: { type: string }) => data.type === scope)
+            ).length > 0 && (
+                <>
+                  <h3 className="mt-4 text-sm font-medium text-red-600">
+                    The following information is missing:
+                  </h3>
+                  <ul className="mt-2 text-sm text-red-500 list-disc list-inside">
+                    {requiredScopes
+                      .filter(
+                        (scope: string) =>
+                          !currentData.some((data: { type: string }) => data.type === scope)
+                      )
+                      .map((scope: string) => (
+                        <li key={scope} className="flex items-center gap-2">
+                          <span>⚠️</span>
+                          {scope}
+                        </li>
+                      ))}
+                  </ul>
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="mt-4 w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+                  >
+                    Add Missing Information
+                  </button>
+                </>
+              )}
+          </div>
         </div>
+
+        {isModalOpen && (
+          <MissingDataModal
+            scopes={requiredScopes.filter(
+              (scope: string) => !currentData.some((data: { type: string }) => data.type === scope)
+            )}
+            userId={userId}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
 
         <div className="py-4">
           <div className="flex items-center justify-center space-x-4 p-4 bg-gray-50 rounded-md">
@@ -142,8 +206,9 @@ function ConsentPage() {
           </button>
           <button
             onClick={() => consentMutation.mutate(true)}
-            disabled={consentMutation.isPending}
-            className="w-full sm:w-auto px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={consentMutation.isPending || !hasAllRequiredData}
+            title={!hasAllRequiredData ? "Please add all required information before proceeding" : ""}
+            className="w-full sm:w-auto px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {consentMutation.isPending ? "Procesando..." : "Permitir"}
           </button>
