@@ -48,6 +48,7 @@ const getConsentData = createServerFn({
       userEmail: session.user.email,
       appName: app[0].name,
       appIcon: app[0].icon,
+      redirectUrl: app[0].redirectURLs,
     };
   });
 
@@ -75,7 +76,7 @@ import { scopeTranslations } from "@/utils/translations";
 
 function ConsentPage() {
   const [error, setError] = useState<string | null>(null);
-  const { currentData, requiredScopes, userId, userEmail, appName, appIcon } = Route.useLoaderData();
+  const { currentData, requiredScopes, userId, userEmail, appName, appIcon, redirectUrl } = Route.useLoaderData();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Check if all required scopes have corresponding data
@@ -88,8 +89,21 @@ function ConsentPage() {
       const res = await authClient.oauth2.consent({
         accept,
       });
+      return res;
+    },
+    onSuccess: (data) => {
+      if (data.data?.redirectURI) {
+        window.location.href = data.data.redirectURI;
+      } else if (redirectUrl) {
+        // Fallback to the app's redirect URL if the server doesn't return one
+        // This might happen if the consent flow doesn't immediately redirect
+        window.location.href = redirectUrl;
+      } else {
+        setError("No se pudo redirigir a la aplicación. Por favor intente nuevamente.");
+      }
     },
     onError: (err) => {
+      console.error("Consent error:", err);
       setError(err instanceof Error ? err.message : "Ocurrió un error");
     },
   });
@@ -157,17 +171,21 @@ function ConsentPage() {
 
             <div className="border-t border-gray-200 pt-4">
               <div className="text-left">
-                <h3 className="text-sm font-medium text-gray-900">
-                  La siguiente información será compartida:
-                </h3>
-                <ul className="mt-2 text-sm text-gray-600 list-disc list-inside">
-                  {currentData.map((data: { id: string; type: string; value: string }) => (
-                    <li key={data.id} className="flex items-center gap-2">
-                      <span className="text-green-500">✓</span>
-                      {scopeTranslations[data.type] || data.type}: {data.value}
-                    </li>
-                  ))}
-                </ul>
+                {currentData.length > 0 && (
+                  <>
+                    <h3 className="text-sm font-medium text-gray-900">
+                      La siguiente información será compartida:
+                    </h3>
+                    <ul className="mt-2 text-sm text-gray-600 list-disc list-inside">
+                      {currentData.map((data: { id: string; type: string; value: string }) => (
+                        <li key={data.id} className="flex items-center gap-2">
+                          <span className="text-green-500">✓</span>
+                          {scopeTranslations[data.type] || data.type}: {data.value}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
 
                 {requiredScopes.filter(
                   (scope: string) => !currentData.some((data: { type: string }) => data.type === scope)
